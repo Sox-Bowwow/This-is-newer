@@ -1,0 +1,7 @@
+{
+  "name": "Howzit Japan - Your Local Travel Partner",
+  "description": "A personalized travel partner website for tourists in Japan, focusing on local, customized, and intimate cultural experiences.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
