@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, CheckCircle2, Car, Clock, Users, ChevronDown, MessageCircle, Info, Check, X, Sparkles, Star, CreditCard, ArrowRight, Heart, Send, Bookmark, MoreHorizontal, Calendar, Coffee, User } from 'lucide-react';
+import { MapPin, CheckCircle2, Car, Clock, Users, ChevronDown, MessageCircle, Info, Check, X, Sparkles, Star, CreditCard, ArrowRight, Heart, Send, Bookmark, MoreHorizontal, Calendar, Coffee, User, ChevronLeft } from 'lucide-react';
 
 const FAQItem = ({ question, answer }: { question: string; answer: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +40,7 @@ const CourseTimeline = ({ course }: { course: any }) => (
               <div className={`inline-flex items-center gap-2 mb-2 bg-gray-50 px-3 py-1 rounded-full border border-gray-100 text-[9px] font-black uppercase tracking-widest text-howzit-red`}>
                 <Sparkles size={10} /> Step {idx + 1}
               </div>
-              <h4 className="font-black text-xl md:text-2xl text-howzit-dark mb-2">{item.location}</h4>
+              <h4 className="font-black text-xl md:text-2xl text-howzit-dark mb-2 font-heading uppercase">{item.location}</h4>
               <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-4 max-w-sm mx-auto md:mx-0">{item.desc}</p>
               {item.fact && (
                  <div className="inline-block bg-gray-50 px-2 py-1 rounded-lg border border-gray-100 text-[10px] font-bold text-gray-400 italic">
@@ -96,7 +96,7 @@ const InstagramRecommendation = () => {
               <img src="https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?auto=format&fit=crop&q=80" className="w-8 h-8 rounded-full object-cover" />
             </div>
           </div>
-          <span className="text-sm font-black text-howzit-dark">howzit_japan</span>
+          <span className="text-sm font-black text-howzit-dark font-heading">howzit_japan</span>
         </div>
         <MoreHorizontal size={20} className="text-gray-400" />
       </div>
@@ -123,7 +123,7 @@ const InstagramRecommendation = () => {
         </div>
         
         <div>
-          <p className="text-sm font-black text-howzit-dark">542 likes</p>
+          <p className="text-sm font-black text-howzit-dark font-heading">542 likes</p>
         </div>
 
         <div className="space-y-2">
@@ -196,9 +196,17 @@ const FujiTour = () => {
 
   return (
     <div className="bg-white">
+      {/* Hero Section */}
       <section className="relative pt-24 pb-16 px-4 bg-howzit-dark overflow-hidden text-center">
+        {/* Back Button */}
+        <div className="max-w-6xl mx-auto px-4 mb-8 text-left">
+           <Link to="/car-tours" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-howzit-red transition-all group">
+             <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to Car Tours
+           </Link>
+        </div>
+
         <div className="max-w-6xl mx-auto relative z-10">
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight">
+          <h1 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight font-heading uppercase italic">
             Mt.Fuji & Hakone <span className="text-howzit-red">Private Tour</span>
           </h1>
           
@@ -215,11 +223,13 @@ const FujiTour = () => {
         </div>
       </section>
 
+      {/* Merged Overview & IG-Style Recommendations Section */}
       <section className="py-16 bg-gray-50 px-4">
          <div className="max-w-7xl mx-auto bg-white rounded-[3rem] shadow-xl border border-gray-100 overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2">
+               {/* Left Column: Facts & Pricing */}
                <div className="p-8 md:p-12 border-b lg:border-b-0 lg:border-r border-gray-100">
-                  <h2 className="text-2xl font-black mb-6 flex items-center gap-3">
+                  <h2 className="text-2xl font-black mb-6 flex items-center gap-3 font-heading uppercase">
                      <Clock className="text-howzit-red" size={24} /> Tour Overview
                   </h2>
 
@@ -242,6 +252,7 @@ const FujiTour = () => {
                      ))}
                   </div>
 
+                  {/* Pricing Box */}
                   <div className="mb-8 bg-howzit-red/5 p-6 rounded-[2rem] border border-howzit-red/10 relative overflow-hidden group">
                      <div className="relative z-10">
                         <div className="flex items-center gap-2 mb-1">
@@ -249,45 +260,43 @@ const FujiTour = () => {
                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-howzit-red">Transparent Pricing</span>
                         </div>
                         <div className="flex items-baseline gap-2 mb-2">
-                           <span className="text-3xl font-black text-howzit-dark">¥130,000〜</span>
+                           <span className="text-3xl font-black text-howzit-dark font-heading">¥130,000〜</span>
                            <span className="text-xs font-bold text-gray-400">(per group)</span>
                         </div>
                         <p className="text-[11px] font-bold text-gray-500 leading-relaxed mb-1">
                           Rates vary based on guest count and specific course content.
                         </p>
                         <p className="text-[11px] font-bold text-gray-500 leading-relaxed italic">
-                          A precise quote will be provided after your inquiry. There are no additional fees beyond the displayed price (except for "Not Included" items below).
+                          A precise quote will be provided after your inquiry. There are no additional fees beyond the displayed price.
                         </p>
                      </div>
                   </div>
 
+                  {/* Included / Not Included columns */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <h3 className="text-base font-black text-howzit-dark border-b border-gray-100 pb-1">What's Included</h3>
+                      <h3 className="text-base font-black text-howzit-dark border-b border-gray-100 pb-1 font-heading uppercase">What's Included</h3>
                       <ul className="space-y-1 text-xs font-medium text-gray-600">
                         <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0 mt-1.5"></div> Full Private Tour (per group)</li>
                         <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0 mt-1.5"></div> English-speaking Private Guide</li>
                         <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0 mt-1.5"></div> Professional Driver</li>
                         <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0 mt-1.5"></div> Vehicle, Fuel, and Toll Fees</li>
-                        <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0 mt-1.5"></div> All Driver-related Expenses</li>
-                        <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0 mt-1.5"></div> Tokyo 23 Wards Hotel Pickup/Drop-off</li>
+                        <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0 mt-1.5"></div> Tokyo 23 Wards Hotel Pickup</li>
                       </ul>
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-base font-black text-howzit-dark border-b border-gray-100 pb-1">Not Included</h3>
-                      <p className="text-[10px] text-gray-400 font-bold mb-1 leading-tight">*Guest is responsible for actual costs incurred on-site for the following:</p>
+                      <h3 className="text-base font-black text-howzit-dark border-b border-gray-100 pb-1 font-heading uppercase">Not Included</h3>
+                      <p className="text-[10px] text-gray-400 font-bold mb-1 leading-tight">*Guest is responsible for on-site costs:</p>
                       <ul className="space-y-1 text-xs font-medium text-gray-600">
                         <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-howzit-red shrink-0 mt-1.5"></div> Guest Meals & Drinks</li>
-                        <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-howzit-red shrink-0 mt-1.5"></div> Entrance Fees & Activity Costs</li>
-                        <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-howzit-red shrink-0 mt-1.5"></div> Guide's Meals & Entrance Fees (if accompaniment is required)</li>
+                        <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-howzit-red shrink-0 mt-1.5"></div> Entrance Fees & Activities</li>
+                        <li className="flex items-start gap-2"><div className="w-1.5 h-1.5 rounded-full bg-howzit-red shrink-0 mt-1.5"></div> Guide's Meals & Entrances</li>
                       </ul>
-                      <div className="mt-4 pt-3 border-t border-gray-50">
-                        <p className="text-[10px] text-gray-400 font-bold italic">*All driver-related expenses are fully included in the tour price.</p>
-                      </div>
                     </div>
                   </div>
                </div>
 
+               {/* Right Column: Instagram Recommendations */}
                <div className="p-8 md:p-12 bg-gray-50/30 flex flex-col items-center justify-center">
                   <InstagramRecommendation />
                </div>
@@ -295,12 +304,14 @@ const FujiTour = () => {
          </div>
       </section>
 
+      {/* Model Courses Timelines */}
       <section className="py-16 px-4 max-w-7xl mx-auto overflow-hidden">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-black mb-3 tracking-tighter">4 Standard Courses</h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-3 tracking-tighter font-heading uppercase">Standard Courses</h2>
           <p className="text-gray-500 font-medium italic text-xs md:text-sm">Experience-driven itineraries crafted for perfection.</p>
         </div>
 
+        {/* Course Selection Tabs */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           {courses.map((c, i) => (
             <button
@@ -313,37 +324,31 @@ const FujiTour = () => {
           ))}
         </div>
 
+        {/* Zig-Zag Timeline */}
         <div className="max-w-6xl mx-auto">
              <CourseTimeline course={courses[activeCourse]} />
         </div>
       </section>
 
+      {/* FAQ Section */}
       <section className="py-16 bg-gray-50 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-black mb-2">FAQ</h2>
+            <h2 className="text-3xl font-black mb-2 font-heading uppercase">FAQ</h2>
             <p className="text-gray-500 font-medium text-sm">Common questions about our Fuji private tours.</p>
           </div>
           <div className="bg-white rounded-[2.5rem] p-6 md:p-10 shadow-sm border border-gray-100">
             <FAQItem 
               question="Will the tour proceed on rainy days?" 
-              answer="Yes. We flexibly adjust the route and selection of spots based on the weather conditions to ensure the best possible experience."
+              answer="Yes. We flexibly adjust the route based on weather to ensure the best possible experience."
             />
             <FAQItem 
-              question="Is it possible to change the course on the day?" 
+              question="Can we change the course on the day?" 
               answer="We will accommodate changes as much as possible to fit your mood or the day's conditions."
             />
             <FAQItem 
-              question="Can we bring strollers or large luggage?" 
-              answer="Yes, absolutely. Please let us know the number and size of your items in advance so we can ensure the vehicle has sufficient space."
-            />
-            <FAQItem 
-              question="Can we consult about dining locations?" 
-              answer="Of course! We can suggest local restaurants that match your preferences and dietary needs, and we can even help with reservations if required."
-            />
-            <FAQItem 
               question="Cancellation & Payment Policy" 
-              answer="15+ days before: Full 100% refund. Within 15 days: Non-refundable. Pre-payment via secure link required."
+              answer="15+ days before: Full 100% refund. Within 15 days: Non-refundable."
             />
           </div>
         </div>

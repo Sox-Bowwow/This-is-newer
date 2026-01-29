@@ -14,56 +14,11 @@ const TOURS_DATA = [
     location: "Mt. Fuji",
     departure: "Tokyo",
     link: "/car-tours/fuji"
-  },
-  {
-    id: 2,
-    title: "Kyoto Tea & Zen Gardens",
-    img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80",
-    price: "¥75,000",
-    description: "A deep dive into the spiritual heart of Kyoto. Visit hidden temples and enjoy a private tea ceremony in a secluded garden.",
-    highlights: ['Daitoku-ji Temples', 'Private Tea Ceremony', 'Arashiyama Bamboo Forest'],
-    location: "Kyoto",
-    departure: "Kyoto",
-    link: "/car-tours"
-  },
-  {
-    id: 3,
-    title: "Nikko Heritage Luxury Tour",
-    img: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&q=80",
-    price: "¥95,000",
-    description: "Deep dive into Japan's history at Nikko Toshogu Shrine. Visit stunning waterfalls and serene lakes in the mountains.",
-    highlights: ['Toshogu Shrine (UNESCO)', 'Kegon Falls', 'Lake Chuzenji'],
-    location: "Nikko",
-    departure: "Tokyo",
-    link: "/car-tours"
-  },
-  {
-    id: 4,
-    title: "Nara Deer & Great Buddha",
-    img: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&q=80",
-    price: "¥65,000",
-    description: "Explore the ancient capital of Nara. Feed the friendly deer and stand in awe before the giant bronze Buddha.",
-    highlights: ['Todai-ji Temple', 'Nara Park', 'Kasuga Taisha'],
-    location: "Nara",
-    departure: "Kyoto",
-    link: "/car-tours"
-  },
-  {
-    id: 5,
-    title: "Kamakura & Enoshima Coastline",
-    img: "https://images.unsplash.com/photo-1590559899731-397e79477e32?auto=format&fit=crop&q=80",
-    price: "¥75,000",
-    description: "The 'Kyoto of the East'. Explore ancient shrines and the beautiful Shonan coastline in a private van.",
-    highlights: ['Great Buddha', 'Hasedera Temple', 'Enoshima Island'],
-    location: "Kamakura",
-    departure: "Tokyo",
-    link: "/car-tours"
   }
 ];
 
 const TourCard: React.FC<{ tour: typeof TOURS_DATA[0] }> = ({ tour }) => (
-  <div className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-xl group hover:shadow-2xl transition-all duration-300 flex flex-col h-full">
-    {/* Reduced height from h-64 to h-44 (approx 30% reduction for image area) */}
+  <div className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-xl group hover:shadow-2xl transition-all duration-300 flex flex-col h-full max-w-sm mx-auto">
     <div className="h-44 overflow-hidden relative shrink-0">
       <img src={tour.img} alt={tour.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
       <div className="absolute top-4 left-4 bg-howzit-red/90 text-white backdrop-blur px-3 py-1.5 rounded-full font-bold text-[9px] uppercase tracking-widest flex items-center gap-1.5">
@@ -74,18 +29,15 @@ const TourCard: React.FC<{ tour: typeof TOURS_DATA[0] }> = ({ tour }) => (
       </div>
     </div>
     
-    {/* Reduced padding from p-8 to p-5 */}
     <div className="p-5 flex flex-col flex-grow">
       <div className="flex items-center gap-2 text-gray-400 text-[9px] font-black uppercase tracking-widest mb-2">
         <Navigation size={10} className="text-howzit-red" />
         From {tour.departure}
       </div>
       
-      {/* Reduced text size and margin */}
       <h3 className="text-xl font-black mb-2 group-hover:text-howzit-red transition-colors leading-tight">{tour.title}</h3>
       <p className="text-gray-500 text-xs mb-4 leading-relaxed line-clamp-2">{tour.description}</p>
       
-      {/* Reduced internal spacing and margin */}
       <div className="space-y-1.5 mb-5 mt-auto">
         {tour.highlights.slice(0, 3).map((h, i) => (
           <div key={i} className="flex items-center gap-2 text-[10px] font-bold text-gray-700">
@@ -128,9 +80,9 @@ const CarTours = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="max-w-3xl mb-12">
-          <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight">Car Private <span className="text-howzit-red">Tours</span></h1>
+          <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight font-heading uppercase italic">Car Private <span className="text-howzit-red">Tours</span></h1>
           <p className="text-lg text-gray-500 font-medium leading-relaxed">
-            Discover a side of Japan only accessible by car.
+            Discover a side of Japan only accessible by car. Comfortable, private, and tailored to you.
           </p>
         </div>
 
@@ -180,32 +132,18 @@ const CarTours = () => {
 
         {/* Results Grid */}
         {filteredTours.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-32">
             {filteredTours.map(tour => (
               <TourCard key={tour.id} tour={tour} />
             ))}
           </div>
         ) : (
-          <div className="py-20 text-center bg-white rounded-[3rem] border border-dashed border-gray-200">
+          <div className="py-20 text-center bg-white rounded-[3rem] border border-dashed border-gray-200 mb-32">
             <Car size={48} className="mx-auto text-gray-200 mb-4" />
-            <h3 className="text-xl font-black text-gray-400">No tours matching your selection</h3>
-            <p className="text-gray-400 text-sm mt-2">Try changing your filters or contact us for a custom route!</p>
+            <h3 className="text-xl font-black text-gray-400 uppercase">No matches found</h3>
+            <p className="text-gray-400 text-sm mt-2">Try adjusting your filters or contact us for a custom route!</p>
           </div>
         )}
-
-        {/* Future Tours Footer */}
-        <div className="mt-24 p-12 bg-howzit-dark text-white rounded-[3rem] text-center border-b-8 border-howzit-red shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-howzit-red/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
-          <h2 className="text-3xl font-black mb-4">Coming Soon to Car Tours</h2>
-          <p className="text-gray-400 max-w-xl mx-auto mb-10 text-sm">We're expanding our fleet and routes! Stay tuned for more premium experiences departing from Osaka and other regions.</p>
-          <div className="flex flex-wrap justify-center gap-4">
-            {['Kyoto Zen Heritage', 'Osaka Night Drive', 'Shirakawa-go Express'].map((item, i) => (
-              <div key={i} className="bg-white/5 px-6 py-3 rounded-xl border border-white/10 text-xs font-bold uppercase tracking-wider">
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );

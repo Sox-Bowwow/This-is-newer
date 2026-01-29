@@ -1,109 +1,250 @@
 
-import React from 'react';
-import { Search, Filter, Calendar, MapPin, Tag, ChevronRight, Clock } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Search, MapPin, Calendar, Tag, ChevronRight, X, Sparkles, Clock, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-const PackageCard = ({ title, duration, price, location, img, type }: any) => (
-  <div className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 flex flex-col md:flex-row shadow-sm hover:shadow-md transition-all hover:border-howzit-red/30">
-    <div className="md:w-1/3 aspect-video md:aspect-square overflow-hidden">
-      <img src={img} alt={title} className="w-full h-full object-cover" />
-    </div>
-    <div className="p-8 flex-grow flex flex-col justify-between">
-      <div>
-        <div className="flex justify-between items-start mb-4">
-          <span className="px-3 py-1 bg-howzit-red/10 text-howzit-red text-[10px] font-black rounded-full uppercase tracking-wider">{type}</span>
-          <span className="text-sm font-bold text-gray-400 flex items-center gap-1"><MapPin size={14} /> {location}</span>
-        </div>
-        <h3 className="text-2xl font-black mb-2">{title}</h3>
-        <p className="text-gray-500 text-sm mb-6 leading-relaxed">A curated experience blending major highlights with local secrets.</p>
-        <div className="flex gap-4 text-sm font-medium text-gray-700">
-           <span className="flex items-center gap-1"><Clock size={16} className="text-howzit-red" /> {duration}</span>
-           <span className="flex items-center gap-1"><Tag size={16} className="text-howzit-red" /> Custom Options</span>
-        </div>
+const PACKAGES_DATA = [
+  {
+    id: 1,
+    title: "Cherry Blossom Special 2025",
+    excerpt: "The ultimate Sakura experience. We guide you through the best viewing spots in Tokyo and Kyoto, timed perfectly with the bloom.",
+    duration: "7 Days",
+    price: "¥240,000",
+    location: "Tokyo & Kyoto",
+    season: "Spring",
+    type: "Seasonal",
+    img: "https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&q=80",
+    tags: ['Sakura', 'Photo Tour', 'Cultural']
+  },
+  {
+    id: 2,
+    title: "Autumn Foliage & Zen Retreat",
+    excerpt: "Experience Japan’s fiery red maple leaves in the secluded temples of Kyoto and the peaceful hills of Nara.",
+    duration: "5 Days",
+    price: "¥180,000",
+    location: "Kyoto & Nara",
+    season: "Autumn",
+    type: "Seasonal",
+    img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80",
+    tags: ['Momiji', 'Zen', 'Nature']
+  },
+  {
+    id: 3,
+    title: "Snowy Hokkaido Escapade",
+    excerpt: "A winter wonderland journey. Skiing, high-end seafood, and private onsens in Japan's wild north.",
+    duration: "10 Days",
+    price: "¥450,000",
+    location: "Hokkaido",
+    season: "Winter",
+    type: "Luxury",
+    img: "https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&q=80",
+    tags: ['Ski', 'Onsen', 'Food']
+  },
+  {
+    id: 4,
+    title: "The Culinary Soul of Osaka",
+    excerpt: "A deep dive into Japan's kitchen. Markets, street food hidden gems, and cooking with local families.",
+    duration: "Full Day",
+    price: "¥25,000",
+    location: "Osaka",
+    season: "All Year",
+    type: "Experience",
+    img: "https://images.unsplash.com/photo-1480796275477-9df146772724?auto=format&fit=crop&q=80",
+    tags: ['Street Food', 'Market', 'Family']
+  },
+  {
+    id: 5,
+    title: "Kyoto Heritage & Craft",
+    excerpt: "Exclusive access to traditional workshops and historic shrines. Meet the artisans of the old capital.",
+    duration: "3 Days",
+    price: "¥120,000",
+    location: "Kyoto",
+    season: "All Year",
+    type: "Bespoke",
+    img: "https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&q=80",
+    tags: ['Craft', 'History', 'Exclusive']
+  }
+];
+
+const PackageCard = ({ pkg }: { pkg: typeof PACKAGES_DATA[0] }) => (
+  <div className="group block mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="relative aspect-[16/11] overflow-hidden rounded-[1.5rem] mb-5 shadow-sm group-hover:shadow-xl transition-all duration-500 border border-gray-100">
+      <img 
+        src={pkg.img} 
+        alt={pkg.title} 
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+      />
+      <div className="absolute top-4 left-4">
+        <span className="bg-howzit-red text-white text-[9px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
+          {pkg.type}
+        </span>
       </div>
-      <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
-        <div>
-           <span className="text-gray-400 text-xs block font-bold uppercase">Starting from</span>
-           <span className="text-xl font-black text-howzit-dark">{price}</span>
-        </div>
-        <button className="bg-howzit-red text-white px-6 py-3 rounded-full font-bold hover:scale-105 transition-all shadow-md shadow-howzit-red/20">
-           View Details
-        </button>
+      <div className="absolute bottom-4 right-4 bg-howzit-dark/80 backdrop-blur text-white px-3 py-1.5 rounded-xl font-black text-[11px] shadow-lg">
+        {pkg.price}
+      </div>
+    </div>
+    <div className="px-1">
+      <div className="flex items-center gap-3 text-gray-400 text-[9px] font-black uppercase tracking-widest mb-3">
+        <span className="flex items-center gap-1.5"><Clock size={12} className="text-howzit-red" /> {pkg.duration}</span>
+        <span className="flex items-center gap-1.5"><MapPin size={12} className="text-howzit-red" /> {pkg.location}</span>
+      </div>
+      <h2 className="text-xl md:text-2xl font-black text-howzit-dark mb-3 leading-tight group-hover:text-howzit-red transition-colors uppercase tracking-tight font-heading">
+        {pkg.title}
+      </h2>
+      <p className="text-gray-500 text-xs md:text-sm font-medium leading-relaxed mb-5 line-clamp-2">
+        {pkg.excerpt}
+      </p>
+      <div className="flex flex-wrap gap-2 mb-6">
+        {pkg.tags.map((tag, i) => (
+          <span key={i} className="text-[8px] font-black uppercase tracking-widest bg-gray-50 text-gray-400 px-2 py-1 rounded-md border border-gray-100">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-howzit-dark group-hover:gap-3 transition-all">
+        Explore Package <ChevronRight size={14} className="text-howzit-red" />
       </div>
     </div>
   </div>
 );
 
 const SpecialPackages = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [locationFilter, setLocationFilter] = useState('All');
+  const [typeFilter, setTypeFilter] = useState('All');
+
+  const locations = ['All', 'Tokyo', 'Kyoto', 'Osaka', 'Hokkaido', 'Nara'];
+  const types = ['All', 'Seasonal', 'Luxury', 'Experience', 'Bespoke'];
+
+  const filteredPackages = useMemo(() => {
+    return PACKAGES_DATA.filter(pkg => {
+      const matchesSearch = pkg.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                           pkg.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesLocation = locationFilter === 'All' || pkg.location.includes(locationFilter);
+      const matchesType = typeFilter === 'All' || pkg.type === typeFilter;
+      
+      return matchesSearch && matchesLocation && matchesType;
+    });
+  }, [searchTerm, locationFilter, typeFilter]);
+
   return (
-    <div className="py-20 bg-gray-50 min-h-screen px-4">
+    <div className="py-12 bg-white min-h-screen px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-black mb-4"><span className="text-howzit-red">Special</span> Packages</h1>
-          <p className="text-gray-600 font-medium">Curated itineraries ready to go.</p>
+        <div className="mb-10">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tighter uppercase leading-[0.85] text-howzit-dark font-heading">
+            Special<br/><span className="text-howzit-red">Packages.</span>
+          </h1>
+          <p className="text-lg md:text-xl text-gray-400 font-medium max-w-2xl leading-relaxed">
+            Curated journeys designed for the most iconic seasons and high-end experiences across Japan. 
+            Ready-to-go excellence.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Filters Sidebar */}
-          <div className="lg:col-span-1 space-y-8">
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-               <h3 className="font-black text-xl mb-6">Refine Search</h3>
-               <div className="space-y-6">
-                  <div>
-                    <label className="text-xs font-black uppercase text-gray-400 mb-3 block tracking-widest">Duration</label>
-                    <div className="space-y-2">
-                       {['Full Day', 'Multi-day', 'Seasonal Specials'].map((opt, i) => (
-                         <label key={i} className="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" className="w-5 h-5 rounded border-gray-300 text-howzit-red focus:ring-howzit-red" />
-                            <span className="text-sm font-medium text-gray-600 group-hover:text-howzit-red transition-colors">{opt}</span>
-                         </label>
-                       ))}
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-xs font-black uppercase text-gray-400 mb-3 block tracking-widest">Region</label>
-                    <div className="space-y-2">
-                       {['Tokyo Area', 'Kyoto & Nara', 'Hokkaido', 'Kyushu'].map((opt, i) => (
-                         <label key={i} className="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" className="w-5 h-5 rounded border-gray-300 text-howzit-red focus:ring-howzit-red" />
-                            <span className="text-sm font-medium text-gray-600 group-hover:text-howzit-red transition-colors">{opt}</span>
-                         </label>
-                       ))}
-                    </div>
-                  </div>
-                  <button className="w-full py-4 bg-howzit-red text-white rounded-2xl font-black mt-4 hover:shadow-lg hover:shadow-howzit-red/30 transition-all">
-                    APPLY FILTERS
+        {/* Search & Filter Section */}
+        <div className="mb-12 bg-gray-50/50 p-6 md:p-8 rounded-[2.5rem] border border-gray-100 flex flex-col gap-6 shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-end">
+            {/* Search Bar */}
+            <div className="space-y-3">
+              <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest flex items-center gap-2 px-1">
+                <Search size={14} className="text-howzit-red" /> Keyword
+              </label>
+              <div className="relative group">
+                <input 
+                  type="text"
+                  placeholder="Sakura, Onsen, Food..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-5 py-3.5 rounded-2xl bg-white border border-gray-200 focus:border-howzit-red focus:ring-4 focus:ring-howzit-red/10 focus:outline-none transition-all font-bold text-howzit-dark shadow-sm text-sm"
+                />
+                {searchTerm && (
+                  <button 
+                    onClick={() => setSearchTerm('')}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-howzit-red transition-colors"
+                  >
+                    <X size={16} />
                   </button>
-               </div>
+                )}
+              </div>
+            </div>
+
+            {/* Location Filter */}
+            <div className="space-y-3">
+              <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest flex items-center gap-2 px-1">
+                <MapPin size={14} className="text-howzit-red" /> Location
+              </label>
+              <select 
+                value={locationFilter}
+                onChange={(e) => setLocationFilter(e.target.value)}
+                className="w-full px-5 py-3.5 rounded-2xl bg-white border border-gray-200 focus:border-howzit-red focus:ring-4 focus:ring-howzit-red/10 focus:outline-none transition-all font-bold text-howzit-dark cursor-pointer shadow-sm appearance-none text-sm"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23EB2429' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1.25rem center', backgroundSize: '0.9rem' }}
+              >
+                {locations.map(loc => <option key={loc} value={loc}>{loc === 'All' ? 'All Locations' : loc}</option>)}
+              </select>
+            </div>
+
+            {/* Type Filter */}
+            <div className="space-y-3">
+              <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest flex items-center gap-2 px-1">
+                <Tag size={14} className="text-howzit-red" /> Package Type
+              </label>
+              <select 
+                value={typeFilter}
+                onChange={(e) => setTypeFilter(e.target.value)}
+                className="w-full px-5 py-3.5 rounded-2xl bg-white border border-gray-200 focus:border-howzit-red focus:ring-4 focus:ring-howzit-red/10 focus:outline-none transition-all font-bold text-howzit-dark cursor-pointer shadow-sm appearance-none text-sm"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23EB2429' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1.25rem center', backgroundSize: '0.9rem' }}
+              >
+                {types.map(cat => <option key={cat} value={cat}>{cat === 'All' ? 'All Types' : cat}</option>)}
+              </select>
             </div>
           </div>
+        </div>
 
-          {/* Main Feed */}
-          <div className="lg:col-span-3 space-y-6">
-            <PackageCard 
-              title="Cherry Blossom Special 2025"
-              duration="7 Days"
-              price="¥240,000"
-              location="Tokyo & Kyoto"
-              img="https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&q=80"
-              type="Seasonal"
-            />
-            <PackageCard 
-              title="The Culinary Soul of Osaka"
-              duration="Full Day"
-              price="¥25,000"
-              location="Osaka"
-              img="https://images.unsplash.com/photo-1480796275477-9df146772724?auto=format&fit=crop&q=80"
-              type="Experience"
-            />
-            <PackageCard 
-              title="Snowy Hokkaido Escapade"
-              duration="10 Days"
-              price="¥450,000"
-              location="Hokkaido"
-              img="https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&q=80"
-              type="Multi-Day"
-            />
+        {/* Results Info */}
+        <div className="flex items-center justify-between mb-8 px-2">
+          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+            {filteredPackages.length} {filteredPackages.length === 1 ? 'Package' : 'Packages'} found
+          </span>
+          {(searchTerm || locationFilter !== 'All' || typeFilter !== 'All') && (
+            <button 
+              onClick={() => { setSearchTerm(''); setLocationFilter('All'); setTypeFilter('All'); }}
+              className="text-[10px] font-black text-howzit-red uppercase tracking-widest hover:underline"
+            >
+              Reset All Filters
+            </button>
+          )}
+        </div>
+
+        {/* Grid Container */}
+        {filteredPackages.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+            {filteredPackages.map((pkg) => (
+              <PackageCard key={pkg.id} pkg={pkg} />
+            ))}
           </div>
+        ) : (
+          <div className="py-24 text-center bg-gray-50/30 rounded-[3rem] border border-dashed border-gray-200">
+             <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-6 shadow-sm mx-auto text-gray-200">
+                <Search size={32} />
+             </div>
+             <h3 className="text-2xl font-black text-gray-400 uppercase tracking-tight">No packages found</h3>
+             <p className="text-gray-400 font-bold mt-2 text-sm">Try adjusting your filters or search terms.</p>
+          </div>
+        )}
+
+        {/* Call to Action Section */}
+        <div className="mt-24 p-12 md:p-20 bg-howzit-dark text-white rounded-[4rem] text-center relative overflow-hidden border-b-8 border-howzit-red shadow-2xl">
+           <div className="relative z-10">
+              <h3 className="text-3xl md:text-5xl font-black mb-6 font-heading uppercase">Want a Custom Route?</h3>
+              <p className="text-lg text-gray-400 mb-10 max-w-xl mx-auto leading-relaxed">
+                If our packages don't perfectly fit your dream journey, we can build one from scratch just for you.
+              </p>
+              <Link to="/individual-tour" className="bg-howzit-red text-white px-10 py-4 rounded-full font-black text-sm hover:scale-105 transition-transform shadow-2xl shadow-howzit-red/30 inline-block">
+                REQUEST A CUSTOM QUOTE
+              </Link>
+           </div>
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 pointer-events-none">
+              <Star size={400} />
+           </div>
         </div>
       </div>
     </div>

@@ -41,6 +41,24 @@
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
       }
+
+      /* Infinite Marquee Animation */
+      @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+      .marquee-container {
+        overflow: hidden;
+        user-select: none;
+      }
+      .marquee-content {
+        display: flex;
+        width: max-content;
+        animation: marquee 60s linear infinite;
+      }
+      .marquee-content:hover {
+        animation-play-state: paused;
+      }
     </style>
   <script type="importmap">
 {

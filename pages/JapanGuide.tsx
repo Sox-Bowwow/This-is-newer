@@ -1,110 +1,205 @@
 
-import React from 'react';
-import { Search, Filter, Calendar, MapPin, Tag, ChevronRight, Clock } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Calendar, MapPin, ChevronRight, Search, X, Filter, Tag } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-const PackageCard = ({ title, duration, price, location, img, type }: any) => (
-  <div className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 flex flex-col md:flex-row shadow-sm hover:shadow-md transition-all hover:border-howzit-red/30">
-    <div className="md:w-1/3 aspect-video md:aspect-square overflow-hidden">
-      <img src={img} alt={title} className="w-full h-full object-cover" />
-    </div>
-    <div className="p-8 flex-grow flex flex-col justify-between">
-      <div>
-        <div className="flex justify-between items-start mb-4">
-          <span className="px-3 py-1 bg-howzit-red/10 text-howzit-red text-[10px] font-black rounded-full uppercase tracking-wider">{type}</span>
-          <span className="text-sm font-bold text-gray-400 flex items-center gap-1"><MapPin size={14} /> {location}</span>
-        </div>
-        <h3 className="text-2xl font-black mb-2">{title}</h3>
-        <p className="text-gray-500 text-sm mb-6 leading-relaxed">A curated experience blending major highlights with local secrets.</p>
-        <div className="flex gap-4 text-sm font-medium text-gray-700">
-           <span className="flex items-center gap-1"><Clock size={16} className="text-howzit-red" /> {duration}</span>
-           <span className="flex items-center gap-1"><Tag size={16} className="text-howzit-red" /> Custom Options</span>
-        </div>
+const BLOG_POSTS = [
+  {
+    type: 'blog',
+    title: "Kyoto’s Fiery Autumn: A Zen Journey",
+    excerpt: 'Avoid the crowds and find peace in the secluded temples of Kyoto during the peak foliage season. A guide to the most spiritual autumn experience.',
+    date: 'Nov 15, 2024',
+    category: 'Culture',
+    location: 'Kyoto',
+    season: 'Autumn',
+    img: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80',
+    path: '/blog/kyoto-autumn'
+  },
+  {
+    type: 'blog',
+    title: 'Tokyo Culinary Journey: Shibuya’s Hidden Alleys',
+    excerpt: 'Discover the secret gyoza spots and local izakayas tucked away from the Shibuya scramble. A late-night dive into Tokyo’s food soul.',
+    date: 'Oct 12, 2024',
+    category: 'Food',
+    location: 'Tokyo',
+    season: 'Summer',
+    img: 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&q=80',
+    path: '/blog/tokyo-culinary-journey'
+  }
+];
+
+const BlogCard = ({ post }: { post: typeof BLOG_POSTS[0] }) => (
+  <Link to={post.path} className="group block mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="relative aspect-[16/11] overflow-hidden rounded-[1.5rem] mb-5 shadow-sm group-hover:shadow-xl transition-all duration-500">
+      <img 
+        src={post.img} 
+        alt={post.title} 
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+      />
+      <div className="absolute top-4 left-4">
+        <span className="bg-howzit-red text-white text-[9px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
+          {post.category}
+        </span>
       </div>
-      <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
-        <div>
-           <span className="text-gray-400 text-xs block font-bold uppercase">Starting from</span>
-           <span className="text-xl font-black text-howzit-dark">{price}</span>
-        </div>
-        <button className="bg-howzit-red text-white px-6 py-3 rounded-full font-bold hover:scale-105 transition-all shadow-md shadow-howzit-red/20">
-           View Details
-        </button>
+    </div>
+    <div className="px-1">
+      <div className="flex items-center gap-3 text-gray-400 text-[9px] font-black uppercase tracking-widest mb-3">
+        <span className="flex items-center gap-1.5"><Calendar size={12} className="text-howzit-red" /> {post.date}</span>
+        <span className="flex items-center gap-1.5"><MapPin size={12} className="text-howzit-red" /> {post.location}</span>
+      </div>
+      <h2 className="text-xl md:text-2xl font-black text-howzit-dark mb-3 leading-tight group-hover:text-howzit-red transition-colors uppercase tracking-tight">
+        {post.title}
+      </h2>
+      <p className="text-gray-500 text-xs md:text-sm font-medium leading-relaxed mb-5 line-clamp-2">
+        {post.excerpt}
+      </p>
+      <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-howzit-dark group-hover:gap-3 transition-all">
+        Read Story <ChevronRight size={14} className="text-howzit-red" />
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 const JapanGuide = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [locationFilter, setLocationFilter] = useState('All');
+  const [seasonFilter, setSeasonFilter] = useState('All');
+  const [genreFilter, setGenreFilter] = useState('All');
+
+  const locations = ['All', 'Tokyo', 'Kyoto', 'Osaka', 'Mt. Fuji'];
+  const seasons = ['All', 'Spring', 'Summer', 'Autumn', 'Winter'];
+  const genres = ['All', 'Food', 'Culture', 'Guide', 'Nature'];
+
+  const filteredPosts = useMemo(() => {
+    return BLOG_POSTS.filter(post => {
+      const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                           post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesLocation = locationFilter === 'All' || post.location === locationFilter;
+      const matchesSeason = seasonFilter === 'All' || post.season === seasonFilter;
+      const matchesGenre = genreFilter === 'All' || post.category === genreFilter;
+      
+      return matchesSearch && matchesLocation && matchesSeason && matchesGenre;
+    });
+  }, [searchTerm, locationFilter, seasonFilter, genreFilter]);
+
   return (
-    <div className="py-20 bg-gray-50 min-h-screen px-4">
+    <div className="py-12 bg-white min-h-screen px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-black mb-4">Japan <span className="text-howzit-red">Guide</span></h1>
-          <p className="text-gray-600 font-medium">Curated itineraries and seasonal specials ready to go.</p>
+        <div className="mb-10">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black mb-4 tracking-tighter uppercase leading-[0.85] text-howzit-dark">
+            Our Japan<br/><span className="text-howzit-red">Stories.</span>
+          </h1>
+          <p className="text-lg md:text-xl text-gray-400 font-medium max-w-2xl leading-relaxed">
+            Local insights, travel tips, and real stories from the heart of Japan. 
+            Discover the unseen.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Filters Sidebar */}
-          <div className="lg:col-span-1 space-y-8">
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-               <h3 className="font-black text-xl mb-6">Refine Guide</h3>
-               <div className="space-y-6">
-                  <div>
-                    <label className="text-xs font-black uppercase text-gray-400 mb-3 block tracking-widest">Duration</label>
-                    <div className="space-y-2">
-                       {['Full Day', 'Multi-day', 'Seasonal Specials'].map((opt, i) => (
-                         <label key={i} className="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" className="w-5 h-5 rounded border-gray-300 text-howzit-red focus:ring-howzit-red" />
-                            <span className="text-sm font-medium text-gray-600 group-hover:text-howzit-red transition-colors">{opt}</span>
-                         </label>
-                       ))}
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-xs font-black uppercase text-gray-400 mb-3 block tracking-widest">Region</label>
-                    <div className="space-y-2">
-                       {['Tokyo Area', 'Kyoto & Nara', 'Hokkaido', 'Kyushu'].map((opt, i) => (
-                         <label key={i} className="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" className="w-5 h-5 rounded border-gray-300 text-howzit-red focus:ring-howzit-red" />
-                            <span className="text-sm font-medium text-gray-600 group-hover:text-howzit-red transition-colors">{opt}</span>
-                         </label>
-                       ))}
-                    </div>
-                  </div>
-                  <button className="w-full py-4 bg-howzit-red text-white rounded-2xl font-black mt-4 hover:shadow-lg hover:shadow-howzit-red/30 transition-all">
-                    APPLY FILTERS
+        {/* Search & Filter Section */}
+        <div className="mb-12 bg-gray-50/50 p-6 md:p-8 rounded-[2.5rem] border border-gray-100 flex flex-col gap-6 shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+            {/* Search Bar */}
+            <div className="lg:col-span-1 space-y-3">
+              <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest flex items-center gap-2 px-1">
+                <Search size={14} className="text-howzit-red" /> Keyword
+              </label>
+              <div className="relative group">
+                <input 
+                  type="text"
+                  placeholder="Sushi, Zen..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-5 py-3.5 rounded-2xl bg-white border border-gray-200 focus:border-howzit-red focus:ring-4 focus:ring-howzit-red/10 focus:outline-none transition-all font-bold text-howzit-dark shadow-sm text-sm"
+                />
+                {searchTerm && (
+                  <button 
+                    onClick={() => setSearchTerm('')}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-howzit-red transition-colors"
+                  >
+                    <X size={16} />
                   </button>
-               </div>
+                )}
+              </div>
+            </div>
+
+            {/* Location Filter */}
+            <div className="space-y-3">
+              <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest flex items-center gap-2 px-1">
+                <MapPin size={14} className="text-howzit-red" /> Location
+              </label>
+              <select 
+                value={locationFilter}
+                onChange={(e) => setLocationFilter(e.target.value)}
+                className="w-full px-5 py-3.5 rounded-2xl bg-white border border-gray-200 focus:border-howzit-red focus:ring-4 focus:ring-howzit-red/10 focus:outline-none transition-all font-bold text-howzit-dark cursor-pointer shadow-sm appearance-none text-sm"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23EB2429' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1.25rem center', backgroundSize: '0.9rem' }}
+              >
+                {locations.map(loc => <option key={loc} value={loc}>{loc}</option>)}
+              </select>
+            </div>
+
+            {/* Season Filter */}
+            <div className="space-y-3">
+              <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest flex items-center gap-2 px-1">
+                <Calendar size={14} className="text-howzit-red" /> Season
+              </label>
+              <select 
+                value={seasonFilter}
+                onChange={(e) => setSeasonFilter(e.target.value)}
+                className="w-full px-5 py-3.5 rounded-2xl bg-white border border-gray-200 focus:border-howzit-red focus:ring-4 focus:ring-howzit-red/10 focus:outline-none transition-all font-bold text-howzit-dark cursor-pointer shadow-sm appearance-none text-sm"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23EB2429' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1.25rem center', backgroundSize: '0.9rem' }}
+              >
+                {seasons.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </div>
+
+            {/* Genre Filter */}
+            <div className="space-y-3">
+              <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest flex items-center gap-2 px-1">
+                <Tag size={14} className="text-howzit-red" /> Genre
+              </label>
+              <select 
+                value={genreFilter}
+                onChange={(e) => setGenreFilter(e.target.value)}
+                className="w-full px-5 py-3.5 rounded-2xl bg-white border border-gray-200 focus:border-howzit-red focus:ring-4 focus:ring-howzit-red/10 focus:outline-none transition-all font-bold text-howzit-dark cursor-pointer shadow-sm appearance-none text-sm"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23EB2429' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1.25rem center', backgroundSize: '0.9rem' }}
+              >
+                {genres.map(g => <option key={g} value={g}>{g}</option>)}
+              </select>
             </div>
           </div>
-
-          {/* Main Feed */}
-          <div className="lg:col-span-3 space-y-6">
-            <PackageCard 
-              title="Cherry Blossom Special 2025"
-              duration="7 Days"
-              price="¥240,000"
-              location="Tokyo & Kyoto"
-              img="https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&q=80"
-              type="Seasonal"
-            />
-            <PackageCard 
-              title="The Culinary Soul of Osaka"
-              duration="Full Day"
-              price="¥25,000"
-              location="Osaka"
-              img="https://images.unsplash.com/photo-1480796275477-9df146772724?auto=format&fit=crop&q=80"
-              type="Experience"
-            />
-            <PackageCard 
-              title="Snowy Hokkaido Escapade"
-              duration="10 Days"
-              price="¥450,000"
-              location="Hokkaido"
-              img="https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&q=80"
-              type="Multi-Day"
-            />
-          </div>
         </div>
+
+        {/* Results Info */}
+        <div className="flex items-center justify-between mb-8 px-2">
+          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+            {filteredPosts.length} {filteredPosts.length === 1 ? 'Story' : 'Stories'} found
+          </span>
+          {(searchTerm || locationFilter !== 'All' || seasonFilter !== 'All' || genreFilter !== 'All') && (
+            <button 
+              onClick={() => { setSearchTerm(''); setLocationFilter('All'); setSeasonFilter('All'); setGenreFilter('All'); }}
+              className="text-[10px] font-black text-howzit-red uppercase tracking-widest hover:underline"
+            >
+              Reset All Filters
+            </button>
+          )}
+        </div>
+
+        {/* Grid Container */}
+        {filteredPosts.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+            {filteredPosts.map((post, i) => (
+              <BlogCard key={i} post={post} />
+            ))}
+          </div>
+        ) : (
+          <div className="py-24 text-center bg-gray-50/30 rounded-[3rem] border border-dashed border-gray-200">
+             <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-6 shadow-sm mx-auto text-gray-200">
+                <Search size={32} />
+             </div>
+             <h3 className="text-2xl font-black text-gray-400 uppercase tracking-tight">No stories found</h3>
+             <p className="text-gray-400 font-bold mt-2 text-sm">Try adjusting your filters or search terms.</p>
+          </div>
+        )}
       </div>
     </div>
   );
