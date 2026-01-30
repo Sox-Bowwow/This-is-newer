@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Menu, X, Instagram, Youtube, MapPin, Users, Car, Coffee, Heart, Star, ChevronRight, Send, Search, Filter, Calendar, Home as HomeIcon, Grid, PlaySquare, Compass, ShieldCheck, ArrowRight, BookOpen, MessageSquare, Lock } from 'lucide-react';
+import { Menu, X, Instagram, Youtube, MapPin, Grid, Compass, ShieldCheck, ArrowRight, MessageSquare, Lock, Send } from 'lucide-react';
 import Home from './pages/Home';
 import IndividualTour from './pages/IndividualTour';
 import GroupTour from './pages/GroupTour';
@@ -21,14 +21,11 @@ import TokyoCulinary from './pages/blog/TokyoCulinary';
 import InternalBlogManager from './pages/InternalBlogManager';
 import ContactUs from './pages/ContactUs';
 
-// ページ遷移時にスクロール位置をトップに戻すコンポーネント
 const ScrollToTop = () => {
   const { pathname } = useLocation();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
   return null;
 };
 
@@ -37,18 +34,20 @@ const Header = () => {
   const location = useLocation();
 
   const navLinks = [
-    { name: 'Our Service', path: '/', icon: Grid },
-    { name: 'Our Japan Guide', path: '/japan-guide', icon: Compass },
-    { name: 'Contact Us', path: '/contact', icon: MessageSquare },
+    { name: 'Our Services', path: '/', icon: Grid },
+    { name: 'Japan Guide', path: '/japan-guide', icon: Compass },
+    { name: 'Contact', path: '/contact', icon: MessageSquare },
   ];
 
   return (
-    <nav className="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-200">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="flex justify-between h-16 items-center">
+    <nav className="fixed w-full z-50 bg-white border-b border-gray-200">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="flex justify-between h-20 items-center">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2 group">
-              <span className="text-2xl font-black tracking-tight text-howzit-dark italic font-heading">Howzit<span className="text-howzit-red">.</span></span>
+              <span className="text-2xl font-black tracking-tight text-howzit-dark italic font-heading">
+                Howzit<span className="text-howzit-red">.</span>
+              </span>
             </Link>
           </div>
           
@@ -57,19 +56,20 @@ const Header = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-[13px] font-black uppercase tracking-widest transition-colors ${location.pathname === link.path ? 'text-howzit-red' : 'text-gray-500 hover:text-howzit-red'}`}
+                className={`text-xs font-bold uppercase tracking-widest transition-colors ${location.pathname === link.path ? 'text-howzit-red' : 'text-gray-500 hover:text-howzit-dark'}`}
               >
                 {link.name}
               </Link>
             ))}
+            {/* Removed Book Tour Button from Header */}
           </div>
 
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-800 p-2"
+              className="text-howzit-dark p-2"
             >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
@@ -77,19 +77,19 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-b border-gray-200 absolute w-full shadow-xl animate-in slide-in-from-top duration-300">
-          <div className="px-4 pt-4 pb-8 space-y-2">
+        <div className="md:hidden bg-white border-b border-gray-200 absolute w-full shadow-xl">
+          <div className="px-6 py-4 space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className={`flex items-center gap-4 px-3 py-4 text-lg font-bold border-b border-gray-50 ${location.pathname === link.path ? 'text-howzit-red' : 'text-gray-700 hover:text-howzit-red'}`}
+                className={`block py-4 text-sm font-bold uppercase tracking-widest border-b border-gray-50 last:border-0 ${location.pathname === link.path ? 'text-howzit-red' : 'text-gray-600'}`}
               >
-                <link.icon size={24} />
                 {link.name}
               </Link>
             ))}
+            {/* Removed Start Planning Button from Mobile Menu */}
           </div>
         </div>
       )}
@@ -99,55 +99,55 @@ const Header = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-white border-t border-gray-100 pt-20 pb-10 mt-20">
-      <div className="max-w-6xl mx-auto px-4">
+    <footer className="bg-howzit-dark text-white pt-24 pb-12">
+      <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
-            <Link to="/" className="text-3xl font-black italic text-howzit-dark">Howzit<span className="text-howzit-red">.</span></Link>
-            <p className="text-gray-500 text-sm leading-relaxed font-medium">
-               A personal travel partner guiding tourists to experience the "daily life, culture, and connections" of Japan.
+            <Link to="/" className="text-3xl font-black italic font-heading">Howzit<span className="text-howzit-red">.</span></Link>
+            <p className="text-gray-400 text-sm leading-relaxed">
+               Your personal travel partner for authentic Japan. We connect curiosity with tradition, guiding you through the heartbeat of local life.
             </p>
             <div className="flex gap-4">
-               <a href="#" className="p-2 bg-gray-100 rounded-full text-howzit-dark hover:bg-howzit-red hover:text-white transition-all"><Instagram size={20} /></a>
-               <a href="#" className="p-2 bg-gray-100 rounded-full text-howzit-dark hover:bg-howzit-red hover:text-white transition-all"><Youtube size={20} /></a>
+               <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-white hover:bg-howzit-red transition-all"><Instagram size={18} /></a>
+               <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-white hover:bg-howzit-red transition-all"><Youtube size={18} /></a>
             </div>
           </div>
 
           <div className="space-y-6">
-             <h4 className="text-xs font-black uppercase tracking-widest text-howzit-red">About Us</h4>
+             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-howzit-red">Philosophy</h4>
              <ul className="space-y-3">
-                <li><Link to="/previous-works" className="text-gray-500 hover:text-howzit-dark text-sm font-bold transition-all">Mission & Philosophy</Link></li>
-                <li><Link to="/previous-works" className="text-gray-500 hover:text-howzit-dark text-sm font-bold transition-all">Team & Guides</Link></li>
-                <li><Link to="/experiences" className="text-gray-500 hover:text-howzit-dark text-sm font-bold transition-all">Cultural Partners</Link></li>
+                <li><Link to="/previous-works" className="text-gray-400 hover:text-white text-sm font-bold transition-all">Our Mission</Link></li>
+                <li><Link to="/previous-works" className="text-gray-400 hover:text-white text-sm font-bold transition-all">Local Besties</Link></li>
+                <li><Link to="/experiences" className="text-gray-400 hover:text-white text-sm font-bold transition-all">Partners</Link></li>
              </ul>
           </div>
 
           <div className="space-y-6">
-             <h4 className="text-xs font-black uppercase tracking-widest text-howzit-red">Services</h4>
+             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-howzit-red">Services</h4>
              <ul className="space-y-3">
-                <li><Link to="/individual-tour" className="text-gray-500 hover:text-howzit-dark text-sm font-bold transition-all">Private Tours</Link></li>
-                <li><Link to="/car-tours" className="text-gray-500 hover:text-howzit-dark text-sm font-bold transition-all">Car Tours</Link></li>
-                <li><Link to="/special-packages" className="text-gray-500 hover:text-howzit-dark text-sm font-bold transition-all">Special Packages</Link></li>
-                <li><Link to="/trip-planning" className="text-gray-500 hover:text-howzit-dark text-sm font-bold transition-all">Full Planning</Link></li>
+                <li><Link to="/individual-tour" className="text-gray-400 hover:text-white text-sm font-bold transition-all">Private Tours</Link></li>
+                <li><Link to="/car-tours" className="text-gray-400 hover:text-white text-sm font-bold transition-all">Car Logistics</Link></li>
+                <li><Link to="/trip-planning" className="text-gray-400 hover:text-white text-sm font-bold transition-all">Full Concierge</Link></li>
              </ul>
           </div>
 
           <div className="space-y-6">
-             <h4 className="text-xs font-black uppercase tracking-widest text-howzit-red">Legal & Admin</h4>
+             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-howzit-red">Explore</h4>
              <ul className="space-y-3">
-                <li><Link to="/previous-works" className="text-gray-500 hover:text-howzit-dark text-sm font-bold transition-all">All Reviews</Link></li>
-                <li><Link to="/internal-blog-manager" className="text-gray-400 hover:text-howzit-red text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 transition-all"><Lock size={12} /> Internal Login</Link></li>
+                <li><Link to="/japan-guide" className="text-gray-400 hover:text-white text-sm font-bold transition-all">Stories & Guide</Link></li>
+                <li><Link to="/internal-blog-manager" className="text-gray-500 hover:text-howzit-red text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 transition-all"><Lock size={12} /> Studio Login</Link></li>
              </ul>
-             <div className="pt-4 border-t border-gray-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-300">
-                <ShieldCheck size={14} /> 100% Secure Payment
-             </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-100 pt-10 text-center">
-           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-300">
-              © 2024 HOWZIT JAPAN. ALL RIGHTS RESERVED. FROM TOKYO WITH LOVE.
+        <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-8">
+           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-600">
+              © 2024 HOWZIT JAPAN.
            </p>
+           <div className="flex gap-6 text-[10px] font-black uppercase tracking-widest text-gray-600">
+             <a href="#" className="hover:text-howzit-red transition-colors">Privacy</a>
+             <a href="#" className="hover:text-howzit-red transition-colors">Terms</a>
+           </div>
         </div>
       </div>
     </footer>
@@ -167,14 +167,14 @@ const AppInner = () => {
       {isTourDetail && (
         <Link 
           to="/contact" 
-          className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[60] bg-howzit-red text-white px-8 py-4 md:px-10 md:py-5 rounded-full font-black text-sm md:text-lg shadow-[0_20px_50px_rgba(235,36,41,0.3)] hover:scale-110 active:scale-95 transition-all flex items-center gap-3 border-2 border-white/20 group backdrop-blur-sm"
+          className="fixed bottom-8 right-8 z-[60] bg-howzit-red text-white px-8 py-4 rounded-full font-black text-sm shadow-xl hover:scale-110 active:scale-95 transition-all flex items-center gap-3 border-2 border-white/20"
         >
-          <span>BOOK NOW</span>
-          <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+          <span>PLAN NOW</span>
+          <ArrowRight size={20} />
         </Link>
       )}
 
-      <main className="pt-16">
+      <main className="pt-20">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/individual-tour" element={<IndividualTour />} />

@@ -60,7 +60,8 @@ const EXPERIENCES_DATA = [
   }
 ];
 
-const ExperienceCard = ({ exp }: { exp: typeof EXPERIENCES_DATA[0] }) => (
+// Fixed: Using React.FC to properly handle the reserved 'key' prop when this component is used in a map function.
+const ExperienceCard: React.FC<{ exp: typeof EXPERIENCES_DATA[0] }> = ({ exp }) => (
   <div className="group block mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
     <div className="relative aspect-[16/11] overflow-hidden rounded-[1.5rem] mb-5 shadow-sm group-hover:shadow-xl transition-all duration-500 border border-gray-100">
       <img 

@@ -66,7 +66,8 @@ const PACKAGES_DATA = [
   }
 ];
 
-const PackageCard = ({ pkg }: { pkg: typeof PACKAGES_DATA[0] }) => (
+// Fixed: Using React.FC to properly handle the reserved 'key' prop when this component is used in a map function.
+const PackageCard: React.FC<{ pkg: typeof PACKAGES_DATA[0] }> = ({ pkg }) => (
   <div className="group block mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
     <div className="relative aspect-[16/11] overflow-hidden rounded-[1.5rem] mb-5 shadow-sm group-hover:shadow-xl transition-all duration-500 border border-gray-100">
       <img 
@@ -216,13 +217,13 @@ const SpecialPackages = () => {
 
         {/* Grid Container */}
         {filteredPackages.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12 pb-24">
             {filteredPackages.map((pkg) => (
               <PackageCard key={pkg.id} pkg={pkg} />
             ))}
           </div>
         ) : (
-          <div className="py-24 text-center bg-gray-50/30 rounded-[3rem] border border-dashed border-gray-200">
+          <div className="py-24 text-center bg-gray-50/30 rounded-[3rem] border border-dashed border-gray-200 mb-24">
              <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-6 shadow-sm mx-auto text-gray-200">
                 <Search size={32} />
              </div>
@@ -230,22 +231,6 @@ const SpecialPackages = () => {
              <p className="text-gray-400 font-bold mt-2 text-sm">Try adjusting your filters or search terms.</p>
           </div>
         )}
-
-        {/* Call to Action Section */}
-        <div className="mt-24 p-12 md:p-20 bg-howzit-dark text-white rounded-[4rem] text-center relative overflow-hidden border-b-8 border-howzit-red shadow-2xl">
-           <div className="relative z-10">
-              <h3 className="text-3xl md:text-5xl font-black mb-6 font-heading uppercase">Want a Custom Route?</h3>
-              <p className="text-lg text-gray-400 mb-10 max-w-xl mx-auto leading-relaxed">
-                If our packages don't perfectly fit your dream journey, we can build one from scratch just for you.
-              </p>
-              <Link to="/individual-tour" className="bg-howzit-red text-white px-10 py-4 rounded-full font-black text-sm hover:scale-105 transition-transform shadow-2xl shadow-howzit-red/30 inline-block">
-                REQUEST A CUSTOM QUOTE
-              </Link>
-           </div>
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 pointer-events-none">
-              <Star size={400} />
-           </div>
-        </div>
       </div>
     </div>
   );

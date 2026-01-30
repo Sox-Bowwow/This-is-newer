@@ -28,7 +28,8 @@ const BLOG_POSTS = [
   }
 ];
 
-const BlogCard = ({ post }: { post: typeof BLOG_POSTS[0] }) => (
+// Fixed: Using React.FC to properly handle the reserved 'key' prop when this component is used in a map function.
+const BlogCard: React.FC<{ post: typeof BLOG_POSTS[0] }> = ({ post }) => (
   <Link to={post.path} className="group block mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
     <div className="relative aspect-[16/11] overflow-hidden rounded-[1.5rem] mb-5 shadow-sm group-hover:shadow-xl transition-all duration-500">
       <img 
