@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Grid, MapPin, Star, ChevronRight, Check, Compass, Users, Sparkles, ArrowRight, Camera, Coffee, ShieldCheck, Instagram, Youtube, BookOpen } from 'lucide-react';
+import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Grid, MapPin, Star, ChevronRight, Check, Compass, Users, Sparkles, ArrowRight, Camera, Coffee, ShieldCheck, Instagram, Youtube, BookOpen, UserPlus, ChevronDown } from 'lucide-react';
 
 const StoryHighlight = ({ title, img }: { title: string, img: string }) => (
   <div className="flex flex-col items-center gap-2 flex-shrink-0 group cursor-default">
@@ -35,28 +35,28 @@ const FeedPost = ({ img, title, category, link, isHighlight, features }: any) =>
       )}
     </div>
     
-    <div className="p-3 flex flex-col flex-grow">
-      <div className="flex justify-between mb-3">
-        <div className="flex gap-3">
-          <Heart size={22} className="text-howzit-dark hover:text-howzit-red transition-colors" />
-          <MessageCircle size={22} className="text-howzit-dark hover:text-gray-400" />
-          <Send size={22} className="text-howzit-dark hover:text-gray-400" />
+    <div className="p-4 flex flex-col flex-grow">
+      <div className="flex justify-between mb-4">
+        <div className="flex gap-4">
+          <Heart size={24} className="text-howzit-dark hover:text-howzit-red transition-colors" />
+          <MessageCircle size={24} className="text-howzit-dark hover:text-gray-400" />
+          <Send size={24} className="text-howzit-dark hover:text-gray-400" />
         </div>
-        <div className="flex gap-3">
-          <Bookmark size={22} className="text-howzit-dark hover:text-gray-400" />
+        <div className="flex gap-4">
+          <Bookmark size={24} className="text-howzit-dark hover:text-gray-400" />
         </div>
       </div>
 
-      <div className="leading-relaxed mb-4">
-        <span className="text-xs font-black mr-2 text-howzit-dark italic font-heading lowercase">howzit_japan</span>
-        <span className="text-xs text-gray-700 font-medium leading-relaxed">{title}</span>
+      <div className="leading-relaxed mb-6">
+        <span className="text-sm font-black mr-2 text-howzit-dark italic font-heading lowercase">howzit_japan</span>
+        <span className="text-[15px] text-gray-800 font-bold leading-snug">{title}</span>
       </div>
 
       {features && (
-        <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-gray-50">
+        <div className="flex flex-wrap gap-1.5 mt-auto pt-4 border-t border-gray-50">
           {features.map((f: string, idx: number) => (
-            <span key={idx} className="bg-gray-50 text-gray-400 text-[8px] font-bold px-2 py-0.5 rounded flex items-center gap-1 uppercase tracking-tighter">
-              <Check size={8} className="text-howzit-red" /> {f}
+            <span key={idx} className="bg-gray-50 text-gray-500 text-[9px] font-black px-2 py-1 rounded flex items-center gap-1 uppercase tracking-tighter border border-gray-100">
+              <Check size={10} className="text-howzit-red" /> {f}
             </span>
           ))}
         </div>
@@ -65,8 +65,8 @@ const FeedPost = ({ img, title, category, link, isHighlight, features }: any) =>
   </Link>
 );
 
-const LessonCard = ({ title, jp, romaji, en, img, category }: any) => (
-  <div className="flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden group hover:shadow-md transition-all h-full">
+const LessonCard = ({ title, jp, romaji, en, img, category, link }: any) => (
+  <Link to={link || '#'} className="flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden group hover:shadow-md transition-all h-full">
     <div className="flex items-center justify-between p-3 border-b border-gray-50">
       <div className="flex items-center gap-2">
         <div className="w-6 h-6 rounded-full bg-howzit-red flex items-center justify-center text-white font-black text-[8px]">あ</div>
@@ -80,26 +80,26 @@ const LessonCard = ({ title, jp, romaji, en, img, category }: any) => (
       <div className="relative z-10">
         <h3 className="text-3xl md:text-4xl font-black text-howzit-dark mb-4 font-heading">{jp}</h3>
         <p className="text-xs font-bold text-howzit-red uppercase tracking-[0.2em] mb-1">{romaji}</p>
-        <p className="text-sm font-medium text-gray-600">{en}</p>
+        <p className="text-sm font-medium text-gray-600 leading-relaxed px-4">{en}</p>
       </div>
     </div>
     
-    <div className="p-3">
-      <div className="flex justify-between mb-3">
-        <div className="flex gap-3">
-          <Heart size={22} className="text-howzit-dark hover:text-howzit-red transition-colors" />
-          <MessageCircle size={22} className="text-howzit-dark hover:text-gray-400" />
-          <Send size={22} className="text-howzit-dark hover:text-gray-400" />
+    <div className="p-4">
+      <div className="flex justify-between mb-4">
+        <div className="flex gap-4">
+          <Heart size={24} className="text-howzit-dark hover:text-howzit-red transition-colors" />
+          <MessageCircle size={24} className="text-howzit-dark hover:text-gray-400" />
+          <Send size={24} className="text-howzit-dark hover:text-gray-400" />
         </div>
-        <Bookmark size={22} className="text-howzit-dark hover:text-gray-400" />
+        <Bookmark size={24} className="text-howzit-dark hover:text-gray-400" />
       </div>
 
       <div className="leading-relaxed">
-        <span className="text-xs font-black mr-2 text-howzit-dark italic font-heading lowercase">howzit_japanese</span>
-        <span className="text-xs text-gray-700 font-medium leading-relaxed">{title}</span>
+        <span className="text-sm font-black mr-2 text-howzit-dark italic font-heading lowercase">howzit_japanese</span>
+        <span className="text-[15px] text-gray-800 font-bold leading-snug">{title}</span>
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 const Home = () => {
@@ -118,37 +118,21 @@ const Home = () => {
 
   const lessons = [
     {
-      title: "Essential for ordering at Izakaya! 🍺",
-      jp: "すみません！",
-      romaji: "sumimasen",
-      en: "Excuse me / I'm sorry",
-      img: "https://images.unsplash.com/photo-1582106245687-cbb466a9f07f?auto=format&fit=crop&q=80",
-      category: "Daily Life"
-    },
-    {
-      title: "Use this to say something is delicious! 🍱",
-      jp: "美味しい！",
-      romaji: "oishii",
-      en: "Delicious / Tasty",
-      img: "https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&q=80",
-      category: "Food & Drink"
-    },
-    {
-      title: "When you leave a shop with gratitude 🌸",
-      jp: "ありがとう！",
-      romaji: "arigatou",
-      en: "Thank you",
-      img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80",
-      category: "Etiquette"
+      title: "Howzit Japanese Lesson 🌸",
+      jp: "こんにちは！",
+      romaji: "Konnichiwa",
+      en: "A fun, travel-first way to prepare for Japan and enjoy it like a local.",
+      img: "https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&q=80",
+      category: "Japanese Lesson",
+      link: "/japanese-lesson"
     }
   ];
 
   return (
     <div className="bg-white">
-      {/* Container width expanded from max-w-4xl to max-w-[1400px] to reduce side margins by approx 70% */}
-      <div className="max-w-[1400px] mx-auto py-10 px-4 md:px-8 lg:px-12">
+      <div className="max-w-[1400px] mx-auto py-8 px-4 md:px-8 lg:px-12">
         {/* 1. Story Highlights */}
-        <section className="mb-14 overflow-hidden">
+        <section className="mb-12 overflow-hidden">
           <div className="flex gap-4 md:gap-10 overflow-x-auto no-scrollbar pb-4 snap-x md:justify-center">
             <div className="snap-center">
               <StoryHighlight title="Solo" img="https://images.unsplash.com/photo-1516423225212-984443685f09?auto=format&fit=crop&q=80" />
@@ -174,26 +158,27 @@ const Home = () => {
           </div>
         </section>
 
-        {/* 2. Profile Section - Expanded for wider layout */}
-        <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 mb-20 items-center">
-          <div className="md:col-span-5 flex justify-center md:justify-end">
-            <div className="w-40 h-40 md:w-56 md:h-56 rounded-full border border-gray-100 p-1.5 flex items-center justify-center bg-white shadow-md overflow-hidden">
+        {/* 2. Instagram Profile Section */}
+        <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 mb-4 items-start">
+          <div className="md:col-span-4 flex justify-center md:justify-end">
+            <div className="w-24 h-24 md:w-44 md:h-44 rounded-full border border-gray-100 p-1 flex items-center justify-center bg-white shadow-sm overflow-hidden">
               <div className="w-full h-full rounded-full overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?auto=format&fit=crop&q=80" alt="Howzit Logo" className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
           
-          <div className="md:col-span-7 text-center md:text-left">
-            <div className="flex flex-col md:flex-row md:items-center gap-6 mb-6 justify-center md:justify-start">
-              <h1 className="text-3xl font-light tracking-tight text-howzit-dark font-heading lowercase">howzit_japan</h1>
-              <div className="flex gap-3 justify-center">
+          <div className="md:col-span-8 flex flex-col items-center md:items-start">
+            <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-6 w-full justify-center md:justify-start">
+              <h1 className="text-xl md:text-2xl font-normal text-howzit-dark font-heading">howzit_japan</h1>
+              
+              <div className="flex items-center gap-2">
                 <a 
                   href="https://instagram.com/howzit_japan" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-2.5 bg-gray-50 text-howzit-dark border border-gray-200 rounded-xl hover:bg-gray-100 transition-all active:scale-95 flex items-center justify-center shadow-sm"
-                  aria-label="Instagram"
+                  className="bg-howzit-red text-white p-2 rounded-lg hover:bg-howzit-red/90 transition-all flex items-center justify-center active:scale-95 shadow-sm"
+                  aria-label="Follow on Instagram"
                 >
                   <Instagram size={20} />
                 </a>
@@ -201,37 +186,34 @@ const Home = () => {
                   href="https://youtube.com/@howzit_japan" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="p-2.5 bg-gray-50 text-howzit-dark border border-gray-200 rounded-xl hover:bg-gray-100 transition-all active:scale-95 flex items-center justify-center shadow-sm"
-                  aria-label="YouTube"
+                  className="bg-gray-100 text-howzit-dark p-2 rounded-lg hover:bg-gray-200 transition-all flex items-center justify-center active:scale-95 shadow-sm"
+                  aria-label="Message via YouTube"
                 >
                   <Youtube size={20} />
                 </a>
               </div>
             </div>
             
-            <div className="flex gap-10 justify-center md:justify-start mb-8 border-y border-gray-50 py-5">
-              <div className="text-base"><span className="font-bold text-howzit-dark">177</span> <span className="text-gray-500">posts</span></div>
-              <div className="text-base"><span className="font-bold text-howzit-dark">Over 500</span> <span className="text-gray-500">travelers</span></div>
-              <div className="text-base"><span className="font-bold text-howzit-dark">6.2k</span> <span className="text-gray-500">followers</span></div>
+            <div className="flex gap-10 justify-center md:justify-start mb-6 border-y md:border-y-0 border-gray-100 py-4 md:py-0 w-full md:w-auto">
+              <div className="text-sm md:text-base"><span className="font-bold text-howzit-dark">177</span> <span className="text-gray-500">posts</span></div>
+              <div className="text-sm md:text-base"><span className="font-bold text-howzit-dark">Over 500</span> <span className="text-gray-500">travelers</span></div>
+              <div className="text-sm md:text-base"><span className="font-bold text-howzit-dark">6.2k</span> <span className="text-gray-500">followers</span></div>
             </div>
 
-            <div className="space-y-4 text-base md:text-[17px] text-howzit-dark leading-relaxed">
-              <p className="font-bold uppercase tracking-widest text-xs flex items-center gap-2 justify-center md:justify-start text-howzit-red">Enjoy Japan like a local with locals.</p>
+            <div className="text-sm md:text-base text-howzit-dark leading-relaxed space-y-1 w-full text-center md:text-left">
+              <h2 className="font-black text-howzit-dark">Enjoy Japan like a local with locals.</h2>
+              <p className="text-gray-400 font-medium">Travel Agency</p>
               
-              <div className="space-y-4">
-                <p className="text-gray-600 font-medium">
-                  Howzit is a travel agency creating fully customized journeys across Japan, designed to connect travelers with local people and culture 🇯🇵🤝
-                </p>
-                <p className="text-gray-600 font-medium">
-                  Instead of fixed routes, we craft warm, authentic experiences based on who you travel with and what you want to discover 🌸🗾
-                </p>
+              <div className="pt-2 text-gray-700 font-medium">
+                <p>Howzit is a travel agency creating fully customized journeys across Japan, designed to connect travelers with local people and culture 🇯🇵🤝</p>
+                <p>Instead of fixed routes, we craft warm, authentic experiences based on who you travel with and what you want to discover 🌸🗾</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* 3. Navigation Tabs */}
-        <div className="border-t border-gray-200 mb-12 flex justify-center">
+        <div className="border-t border-gray-200 mb-8 flex justify-center">
           <div className="flex gap-16 -mt-px">
             <button 
               onClick={() => setActiveTab('services')}
@@ -248,7 +230,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* 4. Grid Container - Wider layout uses 3 or 4 columns on large screens */}
+        {/* 4. Grid Container */}
         {activeTab === 'services' ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 pb-20 animate-in fade-in duration-500">
             <FeedPost 
@@ -295,16 +277,11 @@ const Home = () => {
             />
           </div>
         ) : (
-          /* Locations/Lessons Tab Content */
+          /* Lessons Tab Content - Updated to only show Howzit Japanese Lesson */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 pb-20 animate-in fade-in duration-500">
             {lessons.map((lesson, idx) => (
               <LessonCard key={idx} {...lesson} />
             ))}
-            <div className="flex flex-col bg-gray-50 border border-dashed border-gray-200 rounded-xl overflow-hidden p-12 items-center justify-center text-center">
-              <Sparkles className="text-howzit-red mb-6" size={40} />
-              <p className="text-[11px] font-black uppercase tracking-widest text-gray-400">Coming Soon</p>
-              <p className="text-sm font-bold text-gray-500 mt-3">More interactive lessons from our local guides.</p>
-            </div>
           </div>
         )}
 

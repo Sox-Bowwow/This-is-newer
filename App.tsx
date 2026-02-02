@@ -20,6 +20,7 @@ import KyotoAutumn from './pages/blog/KyotoAutumn';
 import TokyoCulinary from './pages/blog/TokyoCulinary';
 import InternalBlogManager from './pages/InternalBlogManager';
 import ContactUs from './pages/ContactUs';
+import JapaneseLesson from './pages/JapaneseLesson';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -36,12 +37,12 @@ const Header = () => {
   const navLinks = [
     { name: 'Our Services', path: '/', icon: Grid },
     { name: 'Japan Guide', path: '/japan-guide', icon: Compass },
-    { name: 'Contact', path: '/contact', icon: MessageSquare },
+    { name: 'Contact Us', path: '/contact', icon: MessageSquare },
   ];
 
   return (
     <nav className="fixed w-full z-50 bg-white border-b border-gray-200">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-[1400px] mx-auto px-6">
         <div className="flex justify-between h-20 items-center">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2 group">
@@ -51,17 +52,16 @@ const Header = () => {
             </Link>
           </div>
           
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-10">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-xs font-bold uppercase tracking-widest transition-colors ${location.pathname === link.path ? 'text-howzit-red' : 'text-gray-500 hover:text-howzit-dark'}`}
+                className={`text-[13px] font-black uppercase tracking-[0.15em] transition-colors ${location.pathname === link.path ? 'text-howzit-red underline underline-offset-8 decoration-2' : 'text-gray-500 hover:text-howzit-dark'}`}
               >
                 {link.name}
               </Link>
             ))}
-            {/* Removed Book Tour Button from Header */}
           </div>
 
           <div className="md:hidden flex items-center">
@@ -84,12 +84,11 @@ const Header = () => {
                 key={link.name}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className={`block py-4 text-sm font-bold uppercase tracking-widest border-b border-gray-50 last:border-0 ${location.pathname === link.path ? 'text-howzit-red' : 'text-gray-600'}`}
+                className={`block py-5 text-sm font-black uppercase tracking-widest border-b border-gray-50 last:border-0 ${location.pathname === link.path ? 'text-howzit-red' : 'text-gray-600'}`}
               >
                 {link.name}
               </Link>
             ))}
-            {/* Removed Start Planning Button from Mobile Menu */}
           </div>
         </div>
       )}
@@ -194,6 +193,7 @@ const AppInner = () => {
           <Route path="/blog/tokyo-culinary-journey" element={<TokyoCulinary />} />
           <Route path="/internal-blog-manager" element={<InternalBlogManager />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/japanese-lesson" element={<JapaneseLesson />} />
         </Routes>
       </main>
       <Footer />
