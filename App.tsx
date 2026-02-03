@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Menu, X, Instagram, Youtube, MapPin, Grid, Compass, ShieldCheck, ArrowRight, MessageSquare, Lock, Send } from 'lucide-react';
 import Home from './pages/Home';
-import IndividualTour from './pages/IndividualTour';
-import GroupTour from './pages/GroupTour';
+import IndividualTour from './pages/Forms/IndividualTour';
+import GroupTour from './pages/Forms/GroupTour';
 import CarTours from './pages/CarTours/index';
 import FujiTour from './pages/CarTours/FujiTour';
 import TokyoTour from './pages/Tours/TokyoTour';
@@ -13,14 +13,14 @@ import OsakaTour from './pages/Tours/OsakaTour';
 import Experiences from './pages/Experiences';
 import JapanGuide from './pages/JapanGuide';
 import SpecialPackages from './pages/SpecialPackages';
-import TripPlanning from './pages/TripPlanning';
+import TripPlanning from './pages/Forms/TripPlanning';
 import PreviousWorks from './pages/PreviousWorks';
 import Blog from './pages/Blog';
 import KyotoAutumn from './pages/blog/KyotoAutumn';
 import TokyoCulinary from './pages/blog/TokyoCulinary';
 import InternalBlogManager from './pages/InternalBlogManager';
-import ContactUs from './pages/ContactUs';
-import JapaneseLesson from './pages/JapaneseLesson';
+import ContactUs from './pages/Forms/ContactUs';
+import JapaneseLesson from './pages/Forms/JapaneseLesson';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();

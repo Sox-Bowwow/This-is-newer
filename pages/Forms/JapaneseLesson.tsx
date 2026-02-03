@@ -170,7 +170,6 @@ const JapaneseLesson = () => {
     }
   ];
 
-  // Common styles for choice cards (Radio/Checkbox)
   const choiceCardStyle = "flex items-center justify-center p-4 rounded-2xl bg-gray-50 border-2 border-transparent cursor-pointer hover:bg-white hover:border-howzit-red/30 has-[:checked]:bg-white has-[:checked]:border-howzit-red has-[:checked]:shadow-[0_20px_50px_-12px_rgba(235,36,41,0.25)] has-[:checked]:ring-4 has-[:checked]:ring-howzit-red/5 has-[:checked]:scale-[1.02] transition-all text-center";
 
   return (
@@ -198,7 +197,6 @@ const JapaneseLesson = () => {
       {/* Information Section */}
       <section className="py-12 px-6 md:px-12 bg-white relative border-b border-gray-50">
         <div className="max-w-7xl mx-auto">
-          {/* What is Section */}
           <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-start mb-12">
             <div className="shrink-0 md:w-1/4">
               <div className="w-12 h-1 bg-howzit-red mb-4 rounded-full"></div>
@@ -248,7 +246,6 @@ const JapaneseLesson = () => {
               />
             ))}
 
-            {/* Private Group Option Card */}
             <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden p-6 md:p-10 flex flex-col lg:flex-row justify-between gap-8">
               <div className="flex-grow lg:max-w-[70%]">
                 <div className="flex items-center gap-3 mb-4">
@@ -365,13 +362,11 @@ const JapaneseLesson = () => {
                 onSubmit={handleSubmit} 
                 className="bg-white p-8 md:p-16 rounded-[4rem] shadow-2xl border border-gray-100 space-y-12 text-left"
               >
-                {/* 1. Basic Information */}
                 <div className="space-y-8">
                   <div className="flex items-center gap-3 border-b-2 border-gray-100 pb-4">
                     <User size={24} className="text-howzit-red" />
                     <h3 className="text-xl font-black text-howzit-dark font-heading uppercase italic">1. Basic Information</h3>
                   </div>
-                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-2">
                       <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Full Name (English)</label>
@@ -382,7 +377,6 @@ const JapaneseLesson = () => {
                       <input required type="email" placeholder="hello@example.com" className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:ring-4 focus:ring-howzit-red/10 focus:outline-none transition-all font-bold text-howzit-dark text-sm" />
                     </div>
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-2">
                       <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1 flex items-center gap-2">Nationality / Timezone</label>
@@ -404,13 +398,11 @@ const JapaneseLesson = () => {
                   </div>
                 </div>
 
-                {/* 2. Language Background */}
                 <div className="space-y-8">
                   <div className="flex items-center gap-3 border-b-2 border-gray-100 pb-4">
                     <BookOpen size={24} className="text-howzit-red" />
                     <h3 className="text-xl font-black text-howzit-dark font-heading uppercase italic">2. Language Background</h3>
                   </div>
-                  
                   <div className="space-y-4">
                     <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Japanese Level (Self-assessment)</label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -422,7 +414,6 @@ const JapaneseLesson = () => {
                       ))}
                     </div>
                   </div>
-
                   <div className="space-y-4">
                     <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Hiragana / Katakana Literacy</label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -434,7 +425,6 @@ const JapaneseLesson = () => {
                       ))}
                     </div>
                   </div>
-
                   <div className="space-y-4">
                     <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Learning Experience</label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -448,22 +438,15 @@ const JapaneseLesson = () => {
                   </div>
                 </div>
 
-                {/* 3. Goals & Interests */}
                 <div className="space-y-8">
                   <div className="flex items-center gap-3 border-b-2 border-gray-100 pb-4">
                     <Heart size={24} className="text-howzit-red" />
                     <h3 className="text-xl font-black text-howzit-dark font-heading uppercase italic">3. Goals & Interests</h3>
                   </div>
-
                   <div className="space-y-4">
                     <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Purpose (Multiple selection)</label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {[
-                        'Order at restaurants',
-                        'Basic everyday conversation',
-                        'Smooth shopping experience',
-                        'Connect with locals'
-                      ].map(goal => (
+                      {['Order at restaurants', 'Basic everyday conversation', 'Smooth shopping experience', 'Connect with locals'].map(goal => (
                         <label key={goal} className="flex items-center gap-3 p-4 rounded-2xl bg-gray-50 border-2 border-transparent cursor-pointer hover:bg-white hover:border-howzit-red/30 has-[:checked]:bg-white has-[:checked]:border-howzit-red has-[:checked]:shadow-[0_20px_50px_-12px_rgba(235,36,41,0.25)] has-[:checked]:ring-4 has-[:checked]:ring-howzit-red/5 has-[:checked]:scale-[1.02] transition-all">
                           <input type="checkbox" name="purpose" value={goal} className="w-5 h-5 accent-howzit-red rounded" />
                           <span className="text-xs font-bold text-howzit-dark">{goal}</span>
@@ -471,17 +454,10 @@ const JapaneseLesson = () => {
                       ))}
                     </div>
                   </div>
-
                   <div className="space-y-4">
                     <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Topics of Interest (Multiple selection)</label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                      {[
-                        { label: 'Food 🍣', val: 'Food' },
-                        { label: 'Izakaya 🍺', val: 'Izakaya' },
-                        { label: 'Travel 🗼', val: 'Travel' },
-                        { label: 'Daily Life', val: 'Daily' },
-                        { label: 'Business', val: 'Business' }
-                      ].map(topic => (
+                      {[{ label: 'Food 🍣', val: 'Food' }, { label: 'Izakaya 🍺', val: 'Izakaya' }, { label: 'Travel 🗼', val: 'Travel' }, { label: 'Daily Life', val: 'Daily' }, { label: 'Business', val: 'Business' }].map(topic => (
                         <label key={topic.val} className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-gray-50 border-2 border-transparent cursor-pointer hover:bg-white hover:border-howzit-red/30 has-[:checked]:bg-white has-[:checked]:border-howzit-red has-[:checked]:shadow-[0_20px_50px_-12px_rgba(235,36,41,0.25)] has-[:checked]:ring-4 has-[:checked]:ring-howzit-red/5 has-[:checked]:scale-[1.02] transition-all text-center">
                           <input type="checkbox" name="topics" value={topic.val} className="hidden" />
                           <span className="text-[10px] font-black uppercase tracking-tighter leading-tight">{topic.label}</span>
@@ -489,55 +465,29 @@ const JapaneseLesson = () => {
                       ))}
                     </div>
                   </div>
-
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase text-gray-400 tracking-widest px-1">Other Questions or specific requests</label>
                     <textarea rows={4} placeholder="When are you traveling? What do you want to achieve most?" className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:ring-4 focus:ring-howzit-red/10 focus:outline-none transition-all font-medium text-gray-600 text-sm leading-relaxed" />
                   </div>
                 </div>
 
-                {/* 4. Agreements */}
                 <div className="space-y-6 pt-4">
                   <div className="space-y-3">
                     <label className="flex items-center gap-3 px-1 cursor-pointer group">
-                      <input 
-                        type="checkbox" 
-                        checked={agreedTerms}
-                        onChange={(e) => setAgreedTerms(e.target.checked)}
-                        className="w-4 h-4 accent-howzit-red" 
-                      />
+                      <input type="checkbox" checked={agreedTerms} onChange={(e) => setAgreedTerms(e.target.checked)} className="w-4 h-4 accent-howzit-red" />
                       <span className="text-[11px] font-bold text-gray-500 group-hover:text-howzit-dark transition-colors">I agree to the Terms of Use <span className="text-howzit-red">*</span></span>
                     </label>
                     <label className="flex items-center gap-3 px-1 cursor-pointer group">
-                      <input 
-                        type="checkbox" 
-                        checked={agreedCancel}
-                        onChange={(e) => setAgreedCancel(e.target.checked)}
-                        className="w-4 h-4 accent-howzit-red" 
-                      />
+                      <input type="checkbox" checked={agreedCancel} onChange={(e) => setAgreedCancel(e.target.checked)} className="w-4 h-4 accent-howzit-red" />
                       <span className="text-[11px] font-bold text-gray-500 group-hover:text-howzit-dark transition-colors">I acknowledge the Cancellation Policy <span className="text-howzit-red">*</span></span>
                     </label>
                     <label className="flex items-center gap-3 px-1 cursor-pointer group">
-                      <input 
-                        type="checkbox" 
-                        checked={agreedPrivacy}
-                        onChange={(e) => setAgreedPrivacy(e.target.checked)}
-                        className="w-4 h-4 accent-howzit-red" 
-                      />
+                      <input type="checkbox" checked={agreedPrivacy} onChange={(e) => setAgreedPrivacy(e.target.checked)} className="w-4 h-4 accent-howzit-red" />
                       <span className="text-[11px] font-bold text-gray-500 group-hover:text-howzit-dark transition-colors">I agree to the handling of Personal Information <span className="text-howzit-red">*</span></span>
                     </label>
                   </div>
-
                   <div className="pt-6">
-                    <button 
-                      type="submit" 
-                      disabled={!isFormValid}
-                      className={`w-full py-6 rounded-full font-black text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-4 group ${
-                        isFormValid 
-                        ? "bg-howzit-red text-white shadow-2xl shadow-howzit-red/20 hover:scale-[1.02] active:scale-95 cursor-pointer" 
-                        : "bg-gray-200 text-gray-400 cursor-not-allowed grayscale opacity-70"
-                      }`}
-                    >
+                    <button type="submit" disabled={!isFormValid} className={`w-full py-6 rounded-full font-black text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-4 group ${isFormValid ? "bg-howzit-red text-white shadow-2xl shadow-howzit-red/20 hover:scale-[1.02] active:scale-95 cursor-pointer" : "bg-gray-200 text-gray-400 cursor-not-allowed grayscale opacity-70"}`}>
                       Send <Send size={18} className={isFormValid ? "group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" : ""} />
                     </button>
                     <p className="text-center mt-6 text-[9px] font-black text-gray-300 uppercase tracking-widest flex items-center justify-center gap-2">
