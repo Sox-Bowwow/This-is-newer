@@ -36,7 +36,7 @@ const Header = () => {
 
   const navLinks = [
     { name: 'Our Services', path: '/', icon: Grid },
-    { name: 'Japan Guide', path: '/japan-guide', icon: Compass },
+    { name: 'Our Local Guide', path: '/japan-guide', icon: Compass },
     { name: 'Contact Us', path: '/contact', icon: MessageSquare },
   ];
 

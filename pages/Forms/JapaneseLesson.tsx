@@ -1,7 +1,32 @@
 
 import React, { useState, useRef } from 'react';
-import { ChevronLeft, Check, Sparkles, User, Calendar, Clock, Globe, MessageSquare, ShieldCheck, Star, Users, MapPin, Send, AlertCircle, ArrowRight, ChevronDown, ChevronUp, Mail, CheckCircle, Flag, BookOpen, Heart, Info } from 'lucide-react';
+import { ChevronLeft, Check, Sparkles, User, Calendar, Clock, Globe, MessageSquare, ShieldCheck, Star, Users, MapPin, Send, AlertCircle, ArrowRight, ChevronDown, ChevronUp, Mail, CheckCircle, Flag, BookOpen, Heart, Info, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+const PolicyModal = ({ isOpen, onClose, title, content }: { isOpen: boolean; onClose: () => void; title: string; content: React.ReactNode }) => {
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+      <div className="absolute inset-0 bg-howzit-dark/80 backdrop-blur-sm" onClick={onClose}></div>
+      <div className="bg-white w-full max-w-2xl max-h-[80vh] rounded-[2.5rem] shadow-2xl relative z-10 overflow-hidden flex flex-col animate-in zoom-in-95 duration-300">
+        <div className="p-6 md:p-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+          <h3 className="text-xl md:text-2xl font-black text-howzit-dark font-heading uppercase italic tracking-tighter">{title}</h3>
+          <button onClick={onClose} className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-howzit-red hover:border-howzit-red transition-all">
+            <X size={20} />
+          </button>
+        </div>
+        <div className="p-8 md:p-10 overflow-y-auto text-sm md:text-base leading-relaxed text-gray-600 font-medium no-scrollbar">
+          {content}
+        </div>
+        <div className="p-6 border-t border-gray-100 bg-gray-50/50 text-center">
+          <button onClick={onClose} className="px-8 py-3 bg-howzit-dark text-white rounded-full font-black text-xs uppercase tracking-widest hover:bg-howzit-red transition-all">
+            Close Window
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const CourseAccordionItem = ({ course, lessons, isOpen, onClick }: any) => {
   return (
@@ -60,7 +85,6 @@ const CourseAccordionItem = ({ course, lessons, isOpen, onClick }: any) => {
               <thead>
                 <tr className="border-b border-gray-100">
                   <th className="py-4 text-[10px] font-black uppercase tracking-widest text-gray-400 w-16">No.</th>
-                  <th className="py-4 text-[10px] font-black uppercase tracking-widest text-gray-400 w-32">Date</th>
                   <th className="py-4 text-[10px] font-black uppercase tracking-widest text-gray-400">Contents (1h)</th>
                 </tr>
               </thead>
@@ -68,7 +92,6 @@ const CourseAccordionItem = ({ course, lessons, isOpen, onClick }: any) => {
                 {lessons.map((lesson: any, i: number) => (
                   <tr key={i} className="border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
                     <td className="py-5 font-black text-howzit-red">#{lesson.no}</td>
-                    <td className="py-5 text-gray-400">{lesson.date}</td>
                     <td className="py-5 italic text-howzit-dark">{lesson.content}</td>
                   </tr>
                 ))}
@@ -87,6 +110,7 @@ const JapaneseLesson = () => {
   const [agreedTerms, setAgreedTerms] = useState(false);
   const [agreedCancel, setAgreedCancel] = useState(false);
   const [agreedPrivacy, setAgreedPrivacy] = useState(false);
+  const [activeModal, setActiveModal] = useState<'terms' | 'cancel' | 'privacy' | null>(null);
   
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -99,25 +123,107 @@ const JapaneseLesson = () => {
     if (formRef.current) formRef.current.reset();
   };
 
+  const choiceCardStyle = "flex items-center justify-center p-4 rounded-2xl bg-gray-50 border-2 border-transparent cursor-pointer hover:bg-white hover:border-howzit-red/30 has-[:checked]:bg-white has-[:checked]:border-howzit-red has-[:checked]:shadow-[0_20px_50px_-12px_rgba(235,36,41,0.25)] has-[:checked]:ring-4 has-[:checked]:ring-howzit-red/5 has-[:checked]:scale-[1.02] transition-all text-center";
+
+  // Policy Contents
+  const termsContent = (
+    <div className="space-y-6 italic">
+      <section>
+        <h4 className="font-black text-howzit-dark uppercase mb-2">1. Service Overview</h4>
+        <p>Howzit Japanese is an online Japanese language program designed for people planning to travel to Japan. Lessons are conducted online via Zoom in a small-group format.</p>
+        <p className="mt-2 text-xs text-howzit-red font-bold uppercase">This service is not intended for academic purposes, test preparation, or certification. The goal is to help participants communicate more smoothly in real-life travel situations in Japan and to better understand Japanese culture.</p>
+      </section>
+      <section>
+        <h4 className="font-black text-howzit-dark uppercase mb-2">2. Eligibility & Requirements</h4>
+        <p>Participants must have access to a device and internet environment that allows them to use Zoom. A stable internet connection is recommended. Due to network conditions, device settings, or regional limitations, audio or video disruptions may occur. The service cannot guarantee uninterrupted connectivity.</p>
+      </section>
+      <section>
+        <h4 className="font-black text-howzit-dark uppercase mb-2">3. Lesson Format & Schedule</h4>
+        <p>Lessons are conducted as group classes (Min: 2 people / Max: 10 people). Lessons are held on a fixed schedule (Japan Standard Time). Individual schedule changes or personal rescheduling requests are not supported.</p>
+      </section>
+      <section>
+        <h4 className="font-black text-howzit-dark uppercase mb-2">4. Code of Conduct</h4>
+        <p>All participants are expected to treat classmates and instructors with respect. The following behaviors are prohibited: Actions that interfere with progress, Harassment, Religious/Political solicitation, and Commercial promotion.</p>
+      </section>
+      <section>
+        <h4 className="font-black text-howzit-dark uppercase mb-2">5. Materials & Copyright</h4>
+        <p>All materials are the property of Howzit Japanese. Redistribution or sharing without permission is strictly prohibited. Lesson recording is only permitted with prior approval for personal use only.</p>
+      </section>
+      <section>
+        <h4 className="font-black text-howzit-dark uppercase mb-2">6. Changes & Cancellations by Organizer</h4>
+        <p>Lessons may be postponed due to unavoidable circumstances. In such cases, we will offer make-up lessons or substitute instructors. If continuation becomes impossible, refunds will be issued for unused lessons.</p>
+      </section>
+    </div>
+  );
+
+  const cancelContent = (
+    <div className="space-y-6 italic">
+      <div className="bg-howzit-red/5 p-6 rounded-2xl border border-howzit-red/10">
+        <ul className="space-y-4">
+          <li className="flex justify-between items-center border-b border-howzit-red/10 pb-2">
+            <span className="font-black text-howzit-dark">7+ Days before 1st lesson</span>
+            <span className="text-howzit-red font-black">FULL REFUND</span>
+          </li>
+          <li className="flex justify-between items-center border-b border-howzit-red/10 pb-2">
+            <span className="font-black text-howzit-dark">6 Days to 1 Day before</span>
+            <span className="text-gray-400 font-bold">NO REFUND</span>
+          </li>
+          <li className="flex justify-between items-center border-b border-howzit-red/10 pb-2">
+            <span className="font-black text-howzit-dark">After lessons start</span>
+            <span className="text-gray-400 font-bold">NO REFUND</span>
+          </li>
+          <li className="flex justify-between items-center pb-2">
+            <span className="font-black text-howzit-dark">Absence or Tardiness</span>
+            <span className="text-gray-400 font-bold">NO REFUND / NO MAKEUP</span>
+          </li>
+        </ul>
+      </div>
+      <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">
+        *In the event of cancellation by the organizer, a make-up lesson will be scheduled or a refund for the specific unused lesson will be issued.
+      </p>
+    </div>
+  );
+
+  const privacyContent = (
+    <div className="space-y-6 italic">
+      <section>
+        <h4 className="font-black text-howzit-dark uppercase mb-2">Data Collection</h4>
+        <p>We collect necessary information such as Name, Email Address, Country of Residence, and Learning History to provide our services.</p>
+      </section>
+      <section>
+        <h4 className="font-black text-howzit-dark uppercase mb-2">Payment Security</h4>
+        <p>Payment information is managed securely by 3rd-party payment gateways. Howzit Japanese does not store or maintain your credit card details.</p>
+      </section>
+      <section>
+        <h4 className="font-black text-howzit-dark uppercase mb-2">Usage of Information</h4>
+        <p>Collected data is used strictly for operations, essential communication, and quality improvement of our Japanese program.</p>
+      </section>
+      <section>
+        <h4 className="font-black text-howzit-dark uppercase mb-2">3rd Party Disclosure</h4>
+        <p>We do not share your personal information with third parties unless required by law or essential for operational safety.</p>
+      </section>
+    </div>
+  );
+
   const survivalLessons = [
-    { no: 1, date: 'Mar 2', content: 'Greetings & Self-introduction & Numbers' },
-    { no: 2, date: 'Mar 9', content: 'Likes & Dislikes & Japanese Writing System' },
-    { no: 3, date: 'Mar 16', content: 'Restaurant Ordering' },
-    { no: 4, date: 'Mar 23', content: 'Convenience Store & Coffee Shop' },
-    { no: 5, date: 'Mar 30', content: 'Train Stations & Taxis' },
+    { no: 1, content: 'Greetings & Self-introduction & Numbers' },
+    { no: 2, content: 'Likes & Dislikes & Japanese Writing System' },
+    { no: 3, content: 'Restaurant Ordering' },
+    { no: 4, content: 'Convenience Store & Coffee Shop' },
+    { no: 5, content: 'Train Stations & Taxis' },
   ];
 
   const practicalLessons = [
-    { no: 1, date: 'Mar 2', content: 'Greetings & Self-introduction & Numbers' },
-    { no: 2, date: 'Mar 9', content: 'Likes & Dislikes & Japanese Writing System' },
-    { no: 3, date: 'Mar 16', content: 'Ordering Food at Restaurants' },
-    { no: 4, date: 'Mar 23', content: 'Basic Verb Patterns (〜を〜ます)' },
-    { no: 5, date: 'Mar 30', content: 'Convenience Store & Coffee Shop' },
-    { no: 6, date: 'Apr 6', content: 'Clothing & Shoe Stores' },
-    { no: 7, date: 'Apr 13', content: 'Expressing What You Want (〜たいです)' },
-    { no: 8, date: 'Apr 20', content: 'Trains & Taxis' },
-    { no: 9, date: 'Apr 27', content: 'Expressing What You Want (〜たいです)' },
-    { no: 10, date: 'May 4', content: 'Survival Role-play (Final Review)' },
+    { no: 1, content: 'Greetings & Self-introduction & Numbers' },
+    { no: 2, content: 'Likes & Dislikes & Japanese Writing System' },
+    { no: 3, content: 'Ordering Food at Restaurants' },
+    { no: 4, content: 'Basic Verb Patterns (〜を〜ます)' },
+    { no: 5, content: 'Convenience Store & Coffee Shop' },
+    { no: 6, content: 'Clothing & Shoe Stores' },
+    { no: 7, content: 'Expressing What You Want (〜たいです)' },
+    { no: 8, content: 'Trains & Taxis' },
+    { no: 9, content: 'Expressing What You Want (〜たいです)' },
+    { no: 10, content: 'Survival Role-play (Final Review)' },
   ];
 
   const courseData = [
@@ -143,37 +249,27 @@ const JapaneseLesson = () => {
     }
   ];
 
-  const problemSolutions = [
-    { 
-      q: "Standard textbooks are boring/irrelevant.", 
-      a: "Made for travelers", 
-      icon: MapPin,
-      desc: "Focus on high-impact language you'll use from the moment you land."
-    },
-    { 
-      q: "I can't find a regular time to study.", 
-      a: "Fixed schedule", 
-      icon: Calendar,
-      desc: "Live online Zoom sessions that keep you committed and on track."
-    },
-    { 
-      q: "I'm shy and get lost in big classes.", 
-      a: "Small group", 
-      icon: Users,
-      desc: "Intimate groups of 2-10 people ensuring personal attention."
-    },
-    { 
-      q: "I want to speak naturally, not like a robot.", 
-      a: "Real local teacher", 
-      icon: User,
-      desc: "Pro instructors who are also local guides in modern Japan."
-    }
-  ];
-
-  const choiceCardStyle = "flex items-center justify-center p-4 rounded-2xl bg-gray-50 border-2 border-transparent cursor-pointer hover:bg-white hover:border-howzit-red/30 has-[:checked]:bg-white has-[:checked]:border-howzit-red has-[:checked]:shadow-[0_20px_50px_-12px_rgba(235,36,41,0.25)] has-[:checked]:ring-4 has-[:checked]:ring-howzit-red/5 has-[:checked]:scale-[1.02] transition-all text-center";
-
   return (
     <div className="bg-white min-h-screen">
+      <PolicyModal 
+        isOpen={activeModal === 'terms'} 
+        onClose={() => setActiveModal(null)} 
+        title="Terms & Conditions" 
+        content={termsContent} 
+      />
+      <PolicyModal 
+        isOpen={activeModal === 'cancel'} 
+        onClose={() => setActiveModal(null)} 
+        title="Cancellation Policy" 
+        content={cancelContent} 
+      />
+      <PolicyModal 
+        isOpen={activeModal === 'privacy'} 
+        onClose={() => setActiveModal(null)} 
+        title="Personal Information handling" 
+        content={privacyContent} 
+      />
+
       {/* Hero Section */}
       <section className="relative h-[65vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <img 
@@ -474,16 +570,37 @@ const JapaneseLesson = () => {
                 <div className="space-y-6 pt-4">
                   <div className="space-y-3">
                     <label className="flex items-center gap-3 px-1 cursor-pointer group">
-                      <input type="checkbox" checked={agreedTerms} onChange={(e) => setAgreedTerms(e.target.checked)} className="w-4 h-4 accent-howzit-red" />
-                      <span className="text-[11px] font-bold text-gray-500 group-hover:text-howzit-dark transition-colors">I agree to the Terms of Use <span className="text-howzit-red">*</span></span>
+                      <input 
+                        type="checkbox" 
+                        checked={agreedTerms} 
+                        onChange={(e) => setAgreedTerms(e.target.checked)} 
+                        className="w-4 h-4 accent-howzit-red" 
+                      />
+                      <span className="text-[11px] font-bold text-gray-500 group-hover:text-howzit-dark transition-colors">
+                        I agree to the <button type="button" onClick={(e) => { e.stopPropagation(); setActiveModal('terms'); }} className="text-howzit-red underline decoration-howzit-red/30 underline-offset-2 hover:decoration-howzit-red">Terms of Use</button> <span className="text-howzit-red">*</span>
+                      </span>
                     </label>
                     <label className="flex items-center gap-3 px-1 cursor-pointer group">
-                      <input type="checkbox" checked={agreedCancel} onChange={(e) => setAgreedCancel(e.target.checked)} className="w-4 h-4 accent-howzit-red" />
-                      <span className="text-[11px] font-bold text-gray-500 group-hover:text-howzit-dark transition-colors">I acknowledge the Cancellation Policy <span className="text-howzit-red">*</span></span>
+                      <input 
+                        type="checkbox" 
+                        checked={agreedCancel} 
+                        onChange={(e) => setAgreedCancel(e.target.checked)} 
+                        className="w-4 h-4 accent-howzit-red" 
+                      />
+                      <span className="text-[11px] font-bold text-gray-500 group-hover:text-howzit-dark transition-colors">
+                        I acknowledge the <button type="button" onClick={(e) => { e.stopPropagation(); setActiveModal('cancel'); }} className="text-howzit-red underline decoration-howzit-red/30 underline-offset-2 hover:decoration-howzit-red">Cancellation Policy</button> <span className="text-howzit-red">*</span>
+                      </span>
                     </label>
                     <label className="flex items-center gap-3 px-1 cursor-pointer group">
-                      <input type="checkbox" checked={agreedPrivacy} onChange={(e) => setAgreedPrivacy(e.target.checked)} className="w-4 h-4 accent-howzit-red" />
-                      <span className="text-[11px] font-bold text-gray-500 group-hover:text-howzit-dark transition-colors">I agree to the handling of Personal Information <span className="text-howzit-red">*</span></span>
+                      <input 
+                        type="checkbox" 
+                        checked={agreedPrivacy} 
+                        onChange={(e) => setAgreedPrivacy(e.target.checked)} 
+                        className="w-4 h-4 accent-howzit-red" 
+                      />
+                      <span className="text-[11px] font-bold text-gray-500 group-hover:text-howzit-dark transition-colors">
+                        I agree to the handling of <button type="button" onClick={(e) => { e.stopPropagation(); setActiveModal('privacy'); }} className="text-howzit-red underline decoration-howzit-red/30 underline-offset-2 hover:decoration-howzit-red">Personal Information</button> <span className="text-howzit-red">*</span>
+                      </span>
                     </label>
                   </div>
                   <div className="pt-6">
