@@ -103,7 +103,7 @@ const LessonCard = ({ title, jp, romaji, en, img, category, link }: any) => (
 );
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState<'services' | 'locations'>('services');
+  const [activeTab, setActiveTab] = useState<'tours' | 'experiences' | 'lessons'>('tours');
 
   const sharedJourneysImages = [
     "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80",
@@ -214,16 +214,22 @@ const Home = () => {
 
         {/* 3. Navigation Tabs */}
         <div className="border-t border-gray-200 mb-8 flex justify-center">
-          <div className="flex gap-16 -mt-px">
+          <div className="flex gap-10 md:gap-16 -mt-px">
             <button 
-              onClick={() => setActiveTab('services')}
-              className={`flex items-center gap-2 py-5 border-t-2 text-[11px] font-bold uppercase tracking-widest transition-all ${activeTab === 'services' ? 'border-howzit-dark text-howzit-dark' : 'border-transparent text-gray-400 hover:text-howzit-dark'}`}
+              onClick={() => setActiveTab('tours')}
+              className={`flex items-center gap-2 py-5 border-t-2 text-[11px] font-bold uppercase tracking-widest transition-all ${activeTab === 'tours' ? 'border-howzit-dark text-howzit-dark' : 'border-transparent text-gray-400 hover:text-howzit-dark'}`}
             >
-              <Grid size={16} /> Services
+              <Compass size={16} /> Tours
             </button>
             <button 
-              onClick={() => setActiveTab('locations')}
-              className={`flex items-center gap-2 py-5 border-t-2 text-[11px] font-bold uppercase tracking-widest transition-all ${activeTab === 'locations' ? 'border-howzit-dark text-howzit-dark' : 'border-transparent text-gray-400 hover:text-howzit-dark'}`}
+              onClick={() => setActiveTab('experiences')}
+              className={`flex items-center gap-2 py-5 border-t-2 text-[11px] font-bold uppercase tracking-widest transition-all ${activeTab === 'experiences' ? 'border-howzit-dark text-howzit-dark' : 'border-transparent text-gray-400 hover:text-howzit-dark'}`}
+            >
+              <Sparkles size={16} /> Experiences
+            </button>
+            <button 
+              onClick={() => setActiveTab('lessons')}
+              className={`flex items-center gap-2 py-5 border-t-2 text-[11px] font-bold uppercase tracking-widest transition-all ${activeTab === 'lessons' ? 'border-howzit-dark text-howzit-dark' : 'border-transparent text-gray-400 hover:text-howzit-dark'}`}
             >
               <BookOpen size={16} /> Lessons
             </button>
@@ -231,59 +237,67 @@ const Home = () => {
         </div>
 
         {/* 4. Grid Container */}
-        {activeTab === 'services' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 pb-20 animate-in fade-in duration-500">
-            <FeedPost 
-              img="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&q=80"
-              title="For solo travelers, couples, families, and friends, we design one-of-a-kind Japan journeys just for you 🌸🗾"
-              category="Individual Custom Tour"
-              link="/individual-tour"
-              features={["Bespoke Itinerary", "Local Guides", "Any City"]}
-            />
-            <FeedPost 
-              img="https://images.unsplash.com/photo-1570116494159-02d9f212bc0b?auto=format&fit=crop&q=80"
-              title="Skip the train transfers! 🚐 Door-to-door rides to Japan’s iconic landmarks—travel comfortably with the people who matter most ✨"
-              category="Private Car Tour"
-              link="/car-tours"
-              features={["Luxury Vans", "Door-to-Door", "No Crowds"]}
-            />
-            <FeedPost 
-              img="https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&q=80"
-              title="Learn and experience local life with Japanese families, creating heartwarming memories together ❤️"
-              category="Cultural Experience"
-              link="/experiences"
-              features={["Home Visits", "Family Cooking", "Local Life"]}
-            />
-            <FeedPost 
-              img="https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&q=80"
-              title="Seamless Japan discovery. We handle every detail from hotels to dinner reservations for a stress-free trip 🎋"
-              category="Full Trip Planning"
-              link="/trip-planning"
-              features={["Concierge", "24/7 Support", "End-to-End"]}
-            />
-            <FeedPost 
-              img="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&q=80"
-              title="From travel agencies to schools and teams, we create goal-driven group trips for an unforgettable Japan experience ✨🇯🇵"
-              category="Custom Group Tour"
-              link="/group-tour"
-              features={["Logistics", "Large Groups", "Missions"]}
-            />
-            <FeedPost 
-              img="https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&q=80"
-              title="Seasonal magic awaits 🌸 Explore Japan with our Seasonal Tours, Multi-day Packages, and Regional Specials."
-              category="Special Packages"
-              link="/special-packages"
-              features={["Seasonal Gems", "Multi-day", "Exclusives"]}
-            />
-          </div>
-        ) : (
-          /* Lessons Tab Content - Updated to only show Howzit Japanese Lesson */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8 pb-20 animate-in fade-in duration-500">
-            {lessons.map((lesson, idx) => (
-              <LessonCard key={idx} {...lesson} />
-            ))}
-          </div>
-        )}
+        <div className="pb-20">
+          {activeTab === 'tours' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 animate-in fade-in duration-500">
+              <FeedPost 
+                img="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&q=80"
+                title="Bespoke one-of-a-kind journeys just for you 🌸🗾"
+                category="CUSTOM INDIVIDUAL TOUR"
+                link="/individual-tour"
+                features={["Bespoke Itinerary", "Local Guides", "Any City"]}
+              />
+              <FeedPost 
+                img="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&q=80"
+                title="Goal-driven group trips for schools and teams ✨🇯🇵"
+                category="CUSTOM GROUP TOUR"
+                link="/group-tour"
+                features={["Logistics", "Large Groups", "Missions"]}
+              />
+              <FeedPost 
+                img="https://images.unsplash.com/photo-1570116494159-02d9f212bc0b?auto=format&fit=crop&q=80"
+                title="🚐 Door-to-door rides to Japan’s iconic landmarks ✨"
+                category="PRIVATE CAR TOUR"
+                link="/car-tours"
+                features={["Luxury Vans", "Door-to-Door", "Comfort"]}
+              />
+              <FeedPost 
+                img="https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&q=80"
+                title="💎 The ultimate end-to-end concierge for a seamless Japan journey ✨"
+                category="FULL TRIP PLANNING"
+                link="/trip-planning"
+                features={["Concierge", "End-to-End", "Luxury Ryokan"]}
+              />
+            </div>
+          )}
+
+          {activeTab === 'experiences' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 animate-in fade-in duration-500">
+              <FeedPost 
+                img="https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&q=80"
+                title="Learn and experience local life with Japanese families ❤️"
+                category="Cultural Experience"
+                link="/experiences"
+                features={["Home Visits", "Family Cooking", "Local Life"]}
+              />
+              <FeedPost 
+                img="https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&q=80"
+                title="Seasonal magic and multi-day Packages 🌸"
+                category="Special Packages"
+                link="/special-packages"
+                features={["Seasonal Gems", "Multi-day", "Exclusives"]}
+              />
+            </div>
+          )}
+
+          {activeTab === 'lessons' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 animate-in fade-in duration-500">
+              {lessons.map((lesson, idx) => (
+                <LessonCard key={idx} {...lesson} />
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* 5. Journeys We’ve Shared Section */}
         <section className="pt-12 pb-24 border-t border-gray-100">
@@ -296,13 +310,11 @@ const Home = () => {
 
           <div className="marquee-container -mx-4 md:-mx-8 lg:-mx-12">
             <div className="marquee-content gap-6 flex py-6">
-              {/* First half for the marquee */}
               {sharedJourneysImages.map((img, i) => (
                 <div key={`journey-1-${i}`} className="w-72 md:w-96 aspect-[4/3] rounded-[2rem] overflow-hidden shadow-sm border border-gray-100 flex-shrink-0">
                   <img src={img} className="w-full h-full object-cover" alt={`Journey ${i}`} />
                 </div>
               ))}
-              {/* Second half to create a seamless loop */}
               {sharedJourneysImages.map((img, i) => (
                 <div key={`journey-2-${i}`} className="w-72 md:w-96 aspect-[4/3] rounded-[2rem] overflow-hidden shadow-sm border border-gray-100 flex-shrink-0">
                   <img src={img} className="w-full h-full object-cover" alt={`Journey ${i} duplicate`} />
